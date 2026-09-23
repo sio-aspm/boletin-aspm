@@ -80,4 +80,8 @@ footer { margin-top: 48px; color: var(--texto-suave); font-size: 14px; border-to
 .archivo { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px 16px 14px 36px; }
 .archivo li { margin: 5px 0; }
 @media (max-width: 560px) { body { font-size: 16px; } header.top h1 { font-size: 26px; } }
+.buscador { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.buscador input, .buscador select { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid #cfd8cc; border-radius: var(--radio); background: var(--tarjeta); color: var(--texto); }
+.buscador input { flex: 1 1 280px; }
+.buscador input:focus, .buscador select:focus { outline: 2px solid var(--verde-vivo); outline-offset: 1px; }
 header.top .logo { display: block; height: auto; width: 200px; max-width: 60%; margin-bottom: 14px; }

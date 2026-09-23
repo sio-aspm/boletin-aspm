@@ -66,7 +66,7 @@ function Pagina($prefijo, $archivoHtml) {
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Boletín ASPM · $(Esc (FechaLarga $Edicion))</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
 <header class="top"><a href="https://22q13.org.es/" target="_blank" rel="noopener"><img class="logo" src="${prefijo}logo-aspm.png" alt="Asociación Síndrome Phelan-McDermid" width="200" height="58"></a><div class="kicker">Boletín ASPM · Discapacidad, dependencia y familias</div><h1>$(Esc (FechaLarga $Edicion))</h1>
-<div class="meta">Boletines revisados: $(Esc $cubre) · $($datos.items.Count) disposiciones leídas</div></header>
+<div class="meta">Boletines revisados: $(Esc $cubre) · $($datos.items.Count) disposiciones leídas · <a href="${archivoHtml}">Histórico y buscador</a></div></header>
 "@)
     if ($clas.resumen) { [void]$sb.Append("<div class=`"resumen`">$(Esc $clas.resumen)</div>") }
     [void]$sb.Append("<h2 class=`"b1`">1. Te afecta directamente <span class=`"n`">$($afecta.Count)</span></h2>" + (Tarjetas $afecta 'b1'))
@@ -92,7 +92,7 @@ function Pagina($prefijo, $archivoHtml) {
         [void]$sb.Append("<tr><td>$(Esc $f.fuente)</td><td>$(Esc $f.fecha)</td><td$cls>$(Esc $txt)</td><td>$($f.n)</td></tr>")
     }
     [void]$sb.Append('</table>')
-    [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Ediciones anteriores</a></footer></div></body></html>")
+    [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Histórico y buscador</a></footer></div></body></html>")
     return $sb.ToString()
 }
 
@@ -101,10 +101,65 @@ New-Item -ItemType Directory -Force (Join-Path $docs 'ediciones') | Out-Null
 [IO.File]::WriteAllText((Join-Path $docs "ediciones\$Edicion.html"), (Pagina '../' '../archivo.html'), $utf8)
 [IO.File]::WriteAllText((Join-Path $docs 'index.html'), (Pagina '' 'archivo.html'), $utf8)
 
-# Archivo de ediciones
+# Histórico acumulado (bloques 1 y 2 + noticias de todas las ediciones) para el buscador.
+# Fuente de verdad: historico\entradas.json; la web lo lee desde docs\historico.js (funciona también abriendo el archivo local).
+$histFile = Join-Path $raiz 'historico\entradas.json'
+New-Item -ItemType Directory -Force (Split-Path $histFile) | Out-Null
+$hist = @()
+# (en PS 5.1 ConvertFrom-Json entrega el array como un solo objeto: ForEach-Object lo desenrolla)
+if (Test-Path $histFile) { $hist = @(Leer-Json $histFile | ForEach-Object { $_ } | Where-Object { $_.edicion -ne $Edicion }) }
+foreach ($par in @(@('afecta', $afecta), @('conviene', $conviene))) {
+    foreach ($x in @($par[1])) {
+        $tit = $x.c.titular; if (-not $tit) { $tit = $x.it.titulo }
+        $hist += [pscustomobject]@{ edicion = $Edicion; fecha = $x.it.fecha; tipo = $par[0]; titulo = $tit; texto = "$($x.c.por_que)"
+            fuente = $x.it.boletin; plazo = "$($x.c.plazo)"; url = $x.it.url; original = $x.it.titulo }
+    }
+}
+foreach ($n in $noticias) {
+    $hist += [pscustomobject]@{ edicion = $Edicion; fecha = $Edicion; tipo = 'noticia'; titulo = $n.titulo; texto = "$($n.resumen)"
+        fuente = "$($n.fuente)"; plazo = ''; url = $n.url; original = "$($n.fecha)" }
+}
+$hist = @($hist | Sort-Object edicion -Descending)
+$histJson = ConvertTo-Json -InputObject $hist -Depth 3
+[IO.File]::WriteAllText($histFile, $histJson, $utf8)
+[IO.File]::WriteAllText((Join-Path $docs 'historico.js'), "window.HISTORICO = $histJson;", $utf8)
+
+# Página de histórico: buscador + lista de ediciones
 $eds = Get-ChildItem (Join-Path $docs 'ediciones') -Filter *.html | Sort-Object Name -Descending
 $li = ($eds | ForEach-Object { "<li><a href=`"ediciones/$($_.Name)`">$(Esc (FechaLarga $_.BaseName))</a></li>" }) -join ''
-$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Archivo</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><a href=`"https://22q13.org.es/`" target=`"_blank`" rel=`"noopener`"><img class=`"logo`" src=`"logo-aspm.png`" alt=`"Asociación Síndrome Phelan-McDermid`" width=`"200`" height=`"58`"></a><div class=`"kicker`">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header><ul class=`"archivo`">$li</ul></div></body></html>"
+$li = @"
+<div class="buscador"><input id="q" type="search" placeholder="Buscar en todas las ediciones (p. ej. dependencia, Galicia, CUME…)" aria-label="Buscar">
+<select id="tipo" aria-label="Tipo"><option value="">Todo</option><option value="afecta">1. Te afecta directamente</option><option value="conviene">2. Conviene que lo sepas</option><option value="noticia">Noticias</option></select></div>
+<p id="cuenta" class="orig"></p><div id="res"></div>
+<h2>Todas las ediciones</h2><ul class="archivo">$li</ul>
+<script src="historico.js"></script>
+<script>
+(function () {
+  var datos = window.HISTORICO || [], q = document.getElementById('q'), tipo = document.getElementById('tipo'),
+      res = document.getElementById('res'), cuenta = document.getElementById('cuenta');
+  var etiquetas = { afecta: '1. Te afecta', conviene: '2. Conviene saber', noticia: 'Noticia' };
+  function norm(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function fecha(iso) { var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+  function pintar() {
+    var t = norm(q.value).split(/\s+/).filter(Boolean), k = tipo.value;
+    var lista = datos.filter(function (e) {
+      if (k && e.tipo !== k) return false;
+      var h = norm([e.titulo, e.texto, e.fuente, e.original, e.plazo].join(' '));
+      return t.every(function (w) { return h.indexOf(w) >= 0; });
+    });
+    cuenta.textContent = lista.length + (lista.length === 1 ? ' resultado' : ' resultados') + ' en ' + datos.length + ' entradas guardadas';
+    res.innerHTML = lista.slice(0, 200).map(function (e) {
+      return '<article class="card' + (e.tipo === 'afecta' ? ' b1' : '') + '"><div class="tags"><span class="tag">' + etiquetas[e.tipo] + '</span><span class="tag">' + esc(e.fuente) + '</span><span class="tag">Edición ' + fecha(e.edicion) + '</span>' +
+        (e.plazo ? '<span class="tag plazo">Plazo: ' + esc(e.plazo) + '</span>' : '') + '</div><h3>' + esc(e.titulo) + '</h3>' +
+        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a> · <a href="ediciones/' + e.edicion + '.html">Ver la edición</a></p></article>';
+    }).join('');
+  }
+  q.addEventListener('input', pintar); tipo.addEventListener('change', pintar); pintar();
+})();
+</script>
+"@
+$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Histórico</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><a href=`"https://22q13.org.es/`" target=`"_blank`" rel=`"noopener`"><img class=`"logo`" src=`"logo-aspm.png`" alt=`"Asociación Síndrome Phelan-McDermid`" width=`"200`" height=`"58`"></a><div class=`"kicker`">Boletín ASPM</div><h1>Histórico</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header>$li</div></body></html>"
 [IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
 if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
 

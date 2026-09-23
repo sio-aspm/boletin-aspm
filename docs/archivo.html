@@ -1,1 +1,30 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boletín ASPM · Archivo</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="estilo.css"></head><body><div class="wrap"><header class="top"><a href="https://22q13.org.es/" target="_blank" rel="noopener"><img class="logo" src="logo-aspm.png" alt="Asociación Síndrome Phelan-McDermid" width="200" height="58"></a><div class="kicker">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class="meta"><a href="index.html">← Última edición</a></div></header><ul class="archivo"><li><a href="ediciones/2026-09-23.html">23 de septiembre de 2026</a></li></ul></div></body></html>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boletín ASPM · Histórico</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="estilo.css"></head><body><div class="wrap"><header class="top"><a href="https://22q13.org.es/" target="_blank" rel="noopener"><img class="logo" src="logo-aspm.png" alt="Asociación Síndrome Phelan-McDermid" width="200" height="58"></a><div class="kicker">Boletín ASPM</div><h1>Histórico</h1><div class="meta"><a href="index.html">← Última edición</a></div></header><div class="buscador"><input id="q" type="search" placeholder="Buscar en todas las ediciones (p. ej. dependencia, Galicia, CUME…)" aria-label="Buscar">
+<select id="tipo" aria-label="Tipo"><option value="">Todo</option><option value="afecta">1. Te afecta directamente</option><option value="conviene">2. Conviene que lo sepas</option><option value="noticia">Noticias</option></select></div>
+<p id="cuenta" class="orig"></p><div id="res"></div>
+<h2>Todas las ediciones</h2><ul class="archivo"><li><a href="ediciones/2026-09-23.html">23 de septiembre de 2026</a></li></ul>
+<script src="historico.js"></script>
+<script>
+(function () {
+  var datos = window.HISTORICO || [], q = document.getElementById('q'), tipo = document.getElementById('tipo'),
+      res = document.getElementById('res'), cuenta = document.getElementById('cuenta');
+  var etiquetas = { afecta: '1. Te afecta', conviene: '2. Conviene saber', noticia: 'Noticia' };
+  function norm(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function fecha(iso) { var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+  function pintar() {
+    var t = norm(q.value).split(/\s+/).filter(Boolean), k = tipo.value;
+    var lista = datos.filter(function (e) {
+      if (k && e.tipo !== k) return false;
+      var h = norm([e.titulo, e.texto, e.fuente, e.original, e.plazo].join(' '));
+      return t.every(function (w) { return h.indexOf(w) >= 0; });
+    });
+    cuenta.textContent = lista.length + (lista.length === 1 ? ' resultado' : ' resultados') + ' en ' + datos.length + ' entradas guardadas';
+    res.innerHTML = lista.slice(0, 200).map(function (e) {
+      return '<article class="card' + (e.tipo === 'afecta' ? ' b1' : '') + '"><div class="tags"><span class="tag">' + etiquetas[e.tipo] + '</span><span class="tag">' + esc(e.fuente) + '</span><span class="tag">Edición ' + fecha(e.edicion) + '</span>' +
+        (e.plazo ? '<span class="tag plazo">Plazo: ' + esc(e.plazo) + '</span>' : '') + '</div><h3>' + esc(e.titulo) + '</h3>' +
+        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a> · <a href="ediciones/' + e.edicion + '.html">Ver la edición</a></p></article>';
+    }).join('');
+  }
+  q.addEventListener('input', pintar); tipo.addEventListener('change', pintar); pintar();
+})();
+</script></div></body></html>
