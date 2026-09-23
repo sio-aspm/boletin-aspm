@@ -80,3 +80,4 @@ footer { margin-top: 48px; color: var(--texto-suave); font-size: 14px; border-to
 .archivo { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px 16px 14px 36px; }
 .archivo li { margin: 5px 0; }
 @media (max-width: 560px) { body { font-size: 16px; } header.top h1 { font-size: 26px; } }
+header.top .logo { display: block; height: auto; width: 200px; max-width: 60%; margin-bottom: 14px; }
