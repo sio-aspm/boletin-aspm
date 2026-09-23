@@ -10,6 +10,7 @@
   var etiquetas = { afecta: '1. Te afecta', conviene: '2. Conviene saber', noticia: 'Noticia' };
   function norm(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function gmail(e) { return 'https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent(e.asunto || '') + '&body=' + encodeURIComponent(e.cuerpo || ''); }
   function fecha(iso) { var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
   function pintar() {
     var t = norm(q.value).split(/\s+/).filter(Boolean), k = tipo.value;
@@ -22,7 +23,8 @@
     res.innerHTML = lista.slice(0, 200).map(function (e) {
       return '<article class="card' + (e.tipo === 'afecta' ? ' b1' : '') + '"><div class="tags"><span class="tag">' + etiquetas[e.tipo] + '</span><span class="tag">' + esc(e.fuente) + '</span><span class="tag">Edición ' + fecha(e.edicion) + '</span>' +
         (e.plazo ? '<span class="tag plazo">Plazo: ' + esc(e.plazo) + '</span>' : '') + '</div><h3>' + esc(e.titulo) + '</h3>' +
-        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a> · <a href="ediciones/' + e.edicion + '.html">Ver la edición</a></p></article>';
+        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p class="acciones"><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a><a href="ediciones/' + e.edicion + '.html">Ver la edición</a>' +
+        (e.cuerpo ? '<a class="reenviar" href="' + esc(gmail(e)) + '" target="_blank" rel="noopener">✉ Reenviar por correo</a>' : '') + '</p></article>';
     }).join('');
   }
   q.addEventListener('input', pintar); tipo.addEventListener('change', pintar); pintar();

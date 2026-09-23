@@ -44,6 +44,25 @@ $meses = 'enero','febrero','marzo','abril','mayo','junio','julio','agosto','sept
 function FechaLarga($iso) { $d = [datetime]::ParseExact($iso, 'yyyy-MM-dd', $null); "$($d.Day) de $($meses[$d.Month-1]) de $($d.Year)" }
 $cubre = (@($datos.fechas) | ForEach-Object { FechaLarga $_ }) -join ', '
 
+# ---------- Correo de reenvío ----------
+# Cada tarjeta lleva un botón que abre un borrador en Gmail (Google Workspace de 22q13.org.es).
+# El texto lo escribe Claude en el campo "correo" de la clasificación (ver estilo-correo.md);
+# si falta, se genera uno genérico con el titular, el plazo y el enlace.
+function Correo($c, $titular, $plazo, $url, [switch]$Tramite) {
+    if ($c.correo -and $c.correo.cuerpo) { return [pscustomobject]@{ asunto = "$($c.correo.asunto)"; cuerpo = "$($c.correo.cuerpo)" } }
+    $asunto = $titular; if ($plazo) { $asunto += " — plazo: $plazo" }
+    $cuerpo = "Hola:`n`nOs paso esta información por si os resulta útil.`n`n$titular.`n"
+    if ($plazo) { $cuerpo += "`nPlazo: $plazo`n" }
+    $cuerpo += "`nMás información: $url`n"
+    if ($Tramite) { $cuerpo += "`nSi queréis que lo veamos juntos o necesitáis ayuda con la solicitud, decídmelo.`n" }
+    $cuerpo += "`nUn saludo,"
+    return [pscustomobject]@{ asunto = $asunto; cuerpo = $cuerpo }
+}
+function Boton($m) {
+    $u = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + [Uri]::EscapeDataString($m.asunto) + '&body=' + [Uri]::EscapeDataString(($m.cuerpo -replace "`r", ''))
+    "<a class=`"reenviar`" href=`"$(Esc $u)`" target=`"_blank`" rel=`"noopener`">✉ Reenviar por correo</a>"
+}
+
 # ---------- HTML ----------
 function Tarjetas($lista, $clase) {
     if ($lista.Count -eq 0) { return '<p class="vacio">Nada hoy en este bloque.</p>' }
@@ -55,7 +74,8 @@ function Tarjetas($lista, $clase) {
         if ($c.plazo) { [void]$sb.Append("<span class=`"tag plazo`">Plazo: $(Esc $c.plazo)</span>") }
         [void]$sb.Append("</div><h3>$(Esc $titular)</h3>")
         if ($c.por_que) { [void]$sb.Append("<p>$(Esc $c.por_que)</p>") }
-        [void]$sb.Append("<p class=`"orig`">$(Esc $it.departamento) · $(Esc $it.titulo)</p><p><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a></p></article>")
+        $m = Correo $c $titular $c.plazo $it.url -Tramite
+        [void]$sb.Append("<p class=`"orig`">$(Esc $it.departamento) · $(Esc $it.titulo)</p><p class=`"acciones`"><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a>$(Boton $m)</p></article>")
     }
     return $sb.ToString()
 }
@@ -74,7 +94,7 @@ function Pagina($prefijo, $archivoHtml) {
     [void]$sb.Append("<h2>Noticias del sector <span class=`"n`">$($noticias.Count)</span></h2>")
     if ($noticias.Count -eq 0) { [void]$sb.Append('<p class="vacio">Sin noticias destacables hoy.</p>') }
     foreach ($n in $noticias) {
-        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(Esc $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(Esc $n.titulo)</strong></a><div class=`"src`">$(Esc $n.fuente)$(if ($n.fecha) { ' · ' + (Esc $n.fecha) })</div><div>$(Esc $n.resumen)</div></div>")
+        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(Esc $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(Esc $n.titulo)</strong></a><div class=`"src`">$(Esc $n.fuente)$(if ($n.fecha) { ' · ' + (Esc $n.fecha) })</div><div>$(Esc $n.resumen)</div><p class=`"acciones`">$(Boton (Correo $n $n.titulo '' $n.url))</p></div>")
     }
     [void]$sb.Append("<h2>3. Descartado <span class=`"n`">$($descartados.Count)</span></h2><p class=`"orig`">Una línea por disposición, para comprobar que no se ha colado nada relevante.</p>")
     foreach ($g in ($descartados | Group-Object boletin | Sort-Object { if ($_.Name -eq 'BOE') { '0' } else { $_.Name } })) {
@@ -111,13 +131,15 @@ if (Test-Path $histFile) { $hist = @(Leer-Json $histFile | ForEach-Object { $_ }
 foreach ($par in @(@('afecta', $afecta), @('conviene', $conviene))) {
     foreach ($x in @($par[1])) {
         $tit = $x.c.titular; if (-not $tit) { $tit = $x.it.titulo }
+        $m = Correo $x.c $tit $x.c.plazo $x.it.url -Tramite
         $hist += [pscustomobject]@{ edicion = $Edicion; fecha = $x.it.fecha; tipo = $par[0]; titulo = $tit; texto = "$($x.c.por_que)"
-            fuente = $x.it.boletin; plazo = "$($x.c.plazo)"; url = $x.it.url; original = $x.it.titulo }
+            fuente = $x.it.boletin; plazo = "$($x.c.plazo)"; url = $x.it.url; original = $x.it.titulo; asunto = $m.asunto; cuerpo = $m.cuerpo }
     }
 }
 foreach ($n in $noticias) {
+    $m = Correo $n $n.titulo '' $n.url
     $hist += [pscustomobject]@{ edicion = $Edicion; fecha = $Edicion; tipo = 'noticia'; titulo = $n.titulo; texto = "$($n.resumen)"
-        fuente = "$($n.fuente)"; plazo = ''; url = $n.url; original = "$($n.fecha)" }
+        fuente = "$($n.fuente)"; plazo = ''; url = $n.url; original = "$($n.fecha)"; asunto = $m.asunto; cuerpo = $m.cuerpo }
 }
 $hist = @($hist | Sort-Object edicion -Descending)
 $histJson = ConvertTo-Json -InputObject $hist -Depth 3
@@ -140,6 +162,7 @@ $li = @"
   var etiquetas = { afecta: '1. Te afecta', conviene: '2. Conviene saber', noticia: 'Noticia' };
   function norm(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function gmail(e) { return 'https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent(e.asunto || '') + '&body=' + encodeURIComponent(e.cuerpo || ''); }
   function fecha(iso) { var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
   function pintar() {
     var t = norm(q.value).split(/\s+/).filter(Boolean), k = tipo.value;
@@ -152,7 +175,8 @@ $li = @"
     res.innerHTML = lista.slice(0, 200).map(function (e) {
       return '<article class="card' + (e.tipo === 'afecta' ? ' b1' : '') + '"><div class="tags"><span class="tag">' + etiquetas[e.tipo] + '</span><span class="tag">' + esc(e.fuente) + '</span><span class="tag">Edición ' + fecha(e.edicion) + '</span>' +
         (e.plazo ? '<span class="tag plazo">Plazo: ' + esc(e.plazo) + '</span>' : '') + '</div><h3>' + esc(e.titulo) + '</h3>' +
-        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a> · <a href="ediciones/' + e.edicion + '.html">Ver la edición</a></p></article>';
+        (e.texto ? '<p>' + esc(e.texto) + '</p>' : '') + '<p class="acciones"><a href="' + esc(e.url) + '" target="_blank" rel="noopener">Abrir la fuente →</a><a href="ediciones/' + e.edicion + '.html">Ver la edición</a>' +
+        (e.cuerpo ? '<a class="reenviar" href="' + esc(gmail(e)) + '" target="_blank" rel="noopener">✉ Reenviar por correo</a>' : '') + '</p></article>';
     }).join('');
   }
   q.addEventListener('input', pintar); tipo.addEventListener('change', pintar); pintar();

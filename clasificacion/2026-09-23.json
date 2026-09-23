@@ -6,7 +6,11 @@
                        "id":  "DOG-0923-1",
                        "titular":  "Galicia abre ayudas individuales de transporte escolar, también para alumnado de educación especial",
                        "por_que":  "Compensa los gastos de las familias cuyo hijo o hija no puede usar el transporte escolar contratado por la Xunta; incluye educación especial y prevé supuestos por discapacidad. Avisa a las familias gallegas con menores escolarizados que se desplazan por su cuenta.",
-                       "plazo":  "un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026 aprox.)"
+                       "plazo":  "un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026 aprox.)",
+                       "correo":  {
+                                      "asunto":  "Ayudas de transporte escolar en Galicia (también educación especial) — plazo hasta el 23 de octubre",
+                                      "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Xunta de Galicia ha abierto las ayudas individuales de transporte escolar. Son para las familias cuyo hijo o hija no puede usar el transporte escolar contratado y tiene que desplazarse por su cuenta al centro. Incluyen al alumnado de educación especial y contemplan supuestos por discapacidad.\n\nPlazo: un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026, aproximadamente).\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0759-150926-0005_es.html\n\nSi queréis que lo veamos juntos o necesitáis ayuda con la solicitud, decídmelo.\n\nUn saludo,"
+                                  }
                    }
                ],
     "conviene":  [
@@ -14,37 +18,61 @@
                          "id":  "DOG-0923-5",
                          "titular":  "Galicia pide subsanar documentación en las ayudas a la conciliación por reducción de jornada",
                          "por_que":  "Si alguna familia gallega pidió esta ayuda (en algunos casos exige la resolución de grado de discapacidad de los hijos menores de 12 años), tiene 10 días hábiles para completar la documentación.",
-                         "plazo":  "10 días hábiles desde el 24 de septiembre"
+                         "plazo":  "10 días hábiles desde el 24 de septiembre",
+                         "correo":  {
+                                        "asunto":  "Galicia: plazo para completar documentación en las ayudas a la conciliación por reducción de jornada",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os afecta.\n\nLa Xunta de Galicia ha publicado el requerimiento para subsanar documentación en las ayudas a la conciliación por reducción de jornada. Si pedisteis esta ayuda, comprobad si aparecéis en la lista: en algunos casos se pide la resolución del grado de discapacidad de los hijos o hijas menores de 12 años.\n\nPlazo: 10 días hábiles desde el 24 de septiembre.\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0762-150926-0004_es.html\n\nSi queréis que lo veamos juntos o necesitáis ayuda con la documentación, decídmelo.\n\nUn saludo,"
+                                    }
                      },
                      {
                          "id":  "DOE-0923-12",
                          "titular":  "Extremadura resuelve sobre las subvenciones a entidades de personas con enfermedad crónica y sus familias",
                          "por_que":  "Convocatoria para asociaciones de pacientes y familiares, del tipo en el que encaja una entidad de enfermedad rara. Útil como referencia para futuras convocatorias autonómicas.",
-                         "plazo":  ""
+                         "plazo":  "",
+                         "correo":  {
+                                        "asunto":  "Extremadura: resolución de subvenciones a entidades de personas con enfermedad crónica",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nExtremadura ha resuelto la convocatoria de subvenciones para asociaciones de personas con enfermedad crónica y sus familias. Es una línea en la que encajan las entidades de enfermedades raras, así que sirve de referencia para las próximas convocatorias autonómicas.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062386.pdf\n\nUn saludo,"
+                                    }
                      },
                      {
                          "id":  "BOR-0923-8",
                          "titular":  "La Rioja concede 148.200 € a entidades sin ánimo de lucro para programas de atención a la diversidad en el curso 2025-2026",
                          "por_que":  "Línea autonómica de educación inclusiva para entidades; conviene tenerla en el radar para próximas convocatorias.",
-                         "plazo":  ""
+                         "plazo":  "",
+                         "correo":  {
+                                        "asunto":  "La Rioja: 148.200 € para programas de atención a la diversidad de entidades sin ánimo de lucro",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Rioja ha concedido 148.200 € a entidades sin ánimo de lucro para programas de atención a la diversidad en el curso 2025-2026. Es una línea autonómica de educación inclusiva para entidades que conviene tener en cuenta para próximas convocatorias.\n\nMás información: https://web.larioja.org/bor-portada/boranuncio?n=42279118-3-HTML-579848-X\n\nUn saludo,"
+                                    }
                      },
                      {
                          "id":  "DOE-0923-6",
                          "titular":  "Extremadura firma un convenio con la Plataforma del Tercer Sector para fortalecer sus redes",
                          "por_que":  "Muestra cómo se financia la estructura del tercer sector social en otras comunidades.",
-                         "plazo":  ""
+                         "plazo":  "",
+                         "correo":  {
+                                        "asunto":  "Extremadura: convenio con la Plataforma del Tercer Sector para fortalecer sus redes",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Junta de Extremadura ha firmado un convenio con la Plataforma del Tercer Sector para financiar el fortalecimiento de sus redes. Es un buen ejemplo de cómo se sostiene la estructura del tercer sector social en otras comunidades.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062369.pdf\n\nUn saludo,"
+                                    }
                      },
                      {
                          "id":  "BOC-CANARIAS-0923-1",
                          "titular":  "Canarias convalida el decreto ley que implanta su nuevo modelo de acreditación y calidad de centros y servicios de dependencia",
                          "por_que":  "Cambia cómo se acreditan los centros y servicios de dependencia en Canarias; relevante si tienes familias canarias usuarias de centros de día o residencias.",
-                         "plazo":  ""
+                         "plazo":  "",
+                         "correo":  {
+                                        "asunto":  "Canarias: nuevo modelo de acreditación y calidad de centros y servicios de dependencia",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Parlamento de Canarias ha convalidado el decreto ley que implanta un nuevo modelo de acreditación y calidad para los centros y servicios de atención a la dependencia (centros de día, residencias y otros servicios). Si usáis alguno de estos recursos en Canarias, puede haber cambios en los próximos meses.\n\nMás información: https://www.gobiernodecanarias.org/boc/2026/191/3305.html\n\nUn saludo,"
+                                    }
                      },
                      {
                          "id":  "BOA-0923-12",
                          "titular":  "Aragón convoca ayudas para clubes deportivos con acciones de deporte inclusivo",
                          "por_que":  "Pueden pedirla los clubes, no las familias, pero puede ampliar la oferta de deporte adaptado para niños y niñas con discapacidad en Aragón.",
-                         "plazo":  ""
+                         "plazo":  "",
+                         "correo":  {
+                                        "asunto":  "Aragón: ayudas para clubes deportivos con acciones de deporte inclusivo",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Gobierno de Aragón ha convocado ayudas para clubes deportivos que desarrollen acciones de deporte inclusivo. Las piden los clubes, no las familias, pero puede ser buen momento para comentárselo al club de vuestra zona y ampliar la oferta de deporte adaptado para niños y niñas con discapacidad.\n\nMás información: https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VERDOC\u0026BASE=BOLE\u0026DOCN=007961283\n\nUn saludo,"
+                                    }
                      }
                  ],
     "noticias":  [
@@ -53,28 +81,44 @@
                          "fuente":  "Ministerio de Derechos Sociales",
                          "fecha":  "16 de septiembre de 2026",
                          "url":  "https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos",
-                         "resumen":  "Aprobación definitiva. Para tus familias: reconocimiento automático de discapacidad (33 % con Grado I de dependencia; 65 % con Grado II-III), atención temprana de 0 a 6 años como derecho subjetivo, compatibilidad de servicios (centro de día y cuidados familiares) y plazos de resolución más cortos. Pendiente de publicación en el BOE."
+                         "resumen":  "Aprobación definitiva. Para tus familias: reconocimiento automático de discapacidad (33 % con Grado I de dependencia; 65 % con Grado II-III), atención temprana de 0 a 6 años como derecho subjetivo, compatibilidad de servicios (centro de día y cuidados familiares) y plazos de resolución más cortos. Pendiente de publicación en el BOE.",
+                         "correo":  {
+                                        "asunto":  "Aprobada la reforma de las leyes de dependencia y discapacidad: qué cambia",
+                                        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Congreso aprobó el 16 de septiembre la reforma de las leyes de dependencia y discapacidad. Lo más importante para las familias:\n- Reconocimiento automático de discapacidad: 33 % con Grado I de dependencia y 65 % con Grado II o III.\n- La atención temprana de 0 a 6 años pasa a ser un derecho.\n- Se podrán compatibilizar servicios (por ejemplo, centro de día y cuidados en el entorno familiar).\n- Plazos de resolución más cortos.\n\nTodavía falta su publicación en el BOE para que entre en vigor. Os iré contando.\n\nMás información: https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos\n\nUn saludo,"
+                                    }
                      },
                      {
                          "titulo":  "Bustinduy: «Vamos a vigilar que las comunidades cumplan con la ley de dependencia»",
                          "fuente":  "Infobae (EFE)",
                          "fecha":  "20 de septiembre de 2026",
                          "url":  "https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/",
-                         "resumen":  "El ministro anuncia que presionará a las comunidades autónomas para que apliquen la reforma y reduzcan las listas de espera con la nueva financiación."
+                         "resumen":  "El ministro anuncia que presionará a las comunidades autónomas para que apliquen la reforma y reduzcan las listas de espera con la nueva financiación.",
+                         "correo":  {
+                                        "asunto":  "El Ministerio vigilará que las comunidades apliquen la reforma de la dependencia",
+                                        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nEl ministro de Derechos Sociales ha anunciado que vigilará que las comunidades autónomas apliquen la reforma de la ley de dependencia y reduzcan las listas de espera con la nueva financiación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/\n\nUn saludo,"
+                                    }
                      },
                      {
                          "titulo":  "Seis años para un diagnóstico: la odisea del peregrinaje con una enfermedad rara",
                          "fuente":  "Infobae (EFE) · FEDER",
                          "fecha":  "20 de septiembre de 2026",
                          "url":  "https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/",
-                         "resumen":  "FEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a medicamentos huérfanos y más inversión en investigación."
+                         "resumen":  "FEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a medicamentos huérfanos y más inversión en investigación.",
+                         "correo":  {
+                                        "asunto":  "Seis años de media para un diagnóstico de enfermedad rara (FEDER)",
+                                        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nFEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a los medicamentos huérfanos y más inversión en investigación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/\n\nUn saludo,"
+                                    }
                      },
                      {
                          "titulo":  "Tododisca, galardonada en los Premios cermi.es 2026",
                          "fuente":  "Tododisca · CERMI",
                          "fecha":  "22 de septiembre de 2026",
                          "url":  "https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/",
-                         "resumen":  "El CERMI ha dado a conocer los premiados de la XXV edición de sus premios; Tododisca gana en la categoría de medios de comunicación e imagen social de la discapacidad."
+                         "resumen":  "El CERMI ha dado a conocer los premiados de la XXV edición de sus premios; Tododisca gana en la categoría de medios de comunicación e imagen social de la discapacidad.",
+                         "correo":  {
+                                        "asunto":  "Premios cermi.es 2026: Tododisca, premiada en comunicación",
+                                        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nEl CERMI ha dado a conocer los premiados de la XXV edición de los Premios cermi.es. Tododisca ha sido galardonada en la categoría de medios de comunicación e imagen social de la discapacidad.\n\nMás información: https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/\n\nUn saludo,"
+                                    }
                      }
                  ],
     "omitir_titulo":  [

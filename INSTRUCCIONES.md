@@ -20,7 +20,7 @@ Si una fuente da error, no se detiene: queda anotado y sale en la web. Si **toda
 
 ## 2. Clasificar con criterio
 
-1. Lee `criterio.md` entero.
+1. Lee `criterio.md` y `estilo-correo.md` enteros.
 2. Lee `datos\$ED.tsv` **entero** (por tramos si es largo). Cada línea es una disposición:
    `id, boletín, sección, departamento, título`.
 3. Decide para cada una: bloque 1 (`afecta`), bloque 2 (`conviene`) o descartado (no se anota;
@@ -58,6 +58,11 @@ UTF-8. Formato exacto:
 ```
 
 Los `id` deben existir tal cual en el TSV.
+
+**Correo de reenvío:** cada elemento de `afecta`, `conviene` y `noticias` lleva además un campo
+`"correo": { "asunto": "…", "cuerpo": "…" }` con el borrador que se abre al pulsar «Reenviar por
+correo» en la web. Síguelo al pie de la letra de `estilo-correo.md` (texto plano, `\n` para
+saltos de línea, enlace incluido, sin datos de familias). Si falta, el script pone uno genérico.
 
 ## 5. Publicar
 

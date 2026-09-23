@@ -84,4 +84,13 @@ footer { margin-top: 48px; color: var(--texto-suave); font-size: 14px; border-to
 .buscador input, .buscador select { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid #cfd8cc; border-radius: var(--radio); background: var(--tarjeta); color: var(--texto); }
 .buscador input { flex: 1 1 280px; }
 .buscador input:focus, .buscador select:focus { outline: 2px solid var(--verde-vivo); outline-offset: 1px; }
+/* Botón de reenvío por correo (abre un borrador en Gmail) */
+.acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.noticia .acciones { margin: 8px 0 2px; }
+a.reenviar {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+  color: var(--verde); background: var(--tarjeta); border: 1px solid #cfe3c4; border-radius: 999px; padding: 5px 14px;
+}
+a.reenviar:hover { background: var(--verde); border-color: var(--verde); color: #fff; }
+a.reenviar:focus-visible { outline: 2px solid var(--verde-vivo); outline-offset: 2px; }
 header.top .logo { display: block; height: auto; width: 200px; max-width: 60%; margin-bottom: 14px; }
