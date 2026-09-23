@@ -1,4 +1,4 @@
-# Genera la newsletter (HTML en docs\) y el archivo de tres bloques para la carpeta SIO,
+﻿# Genera la newsletter (HTML en docs\) y el archivo de tres bloques para la carpeta SIO,
 # a partir de datos\<edicion>.json (descarga) y clasificacion\<edicion>.json (criterio de Claude).
 # Uso: powershell -ExecutionPolicy Bypass -File scripts\publicar.ps1 -Edicion AAAA-MM-DD [-SinPush]
 param(
@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 $raiz = Split-Path -Parent $PSScriptRoot
 $utf8 = New-Object Text.UTF8Encoding $false
 function Leer-Json($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json }
-function H($s) { [Net.WebUtility]::HtmlEncode("$s") }
+function Esc($s) { [Net.WebUtility]::HtmlEncode("$s") }
 
 $datos = Leer-Json (Join-Path $raiz "datos\$Edicion.json")
 $clas = Leer-Json (Join-Path $raiz "clasificacion\$Edicion.json")
@@ -51,11 +51,11 @@ function Tarjetas($lista, $clase) {
     foreach ($x in $lista) {
         $c = $x.c; $it = $x.it
         $titular = $c.titular; if (-not $titular) { $titular = $it.titulo }
-        [void]$sb.Append("<article class=`"card $clase`"><div class=`"tags`"><span class=`"tag`">$(H $it.boletin)</span><span class=`"tag`">$(H (FechaLarga $it.fecha))</span>")
-        if ($c.plazo) { [void]$sb.Append("<span class=`"tag plazo`">Plazo: $(H $c.plazo)</span>") }
-        [void]$sb.Append("</div><h3>$(H $titular)</h3>")
-        if ($c.por_que) { [void]$sb.Append("<p>$(H $c.por_que)</p>") }
-        [void]$sb.Append("<p class=`"orig`">$(H $it.departamento) · $(H $it.titulo)</p><p><a href=`"$(H $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a></p></article>")
+        [void]$sb.Append("<article class=`"card $clase`"><div class=`"tags`"><span class=`"tag`">$(Esc $it.boletin)</span><span class=`"tag`">$(Esc (FechaLarga $it.fecha))</span>")
+        if ($c.plazo) { [void]$sb.Append("<span class=`"tag plazo`">Plazo: $(Esc $c.plazo)</span>") }
+        [void]$sb.Append("</div><h3>$(Esc $titular)</h3>")
+        if ($c.por_que) { [void]$sb.Append("<p>$(Esc $c.por_que)</p>") }
+        [void]$sb.Append("<p class=`"orig`">$(Esc $it.departamento) · $(Esc $it.titulo)</p><p><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a></p></article>")
     }
     return $sb.ToString()
 }
@@ -64,24 +64,24 @@ function Pagina($prefijo, $archivoHtml) {
     $sb = New-Object Text.StringBuilder
     [void]$sb.Append(@"
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boletín ASPM · $(H (FechaLarga $Edicion))</title><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
-<header class="top"><div class="kicker">Boletín ASPM · Discapacidad, dependencia y familias</div><h1>$(H (FechaLarga $Edicion))</h1>
-<div class="meta">Boletines revisados: $(H $cubre) · $($datos.items.Count) disposiciones leídas</div></header>
+<title>Boletín ASPM · $(Esc (FechaLarga $Edicion))</title><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
+<header class="top"><div class="kicker">Boletín ASPM · Discapacidad, dependencia y familias</div><h1>$(Esc (FechaLarga $Edicion))</h1>
+<div class="meta">Boletines revisados: $(Esc $cubre) · $($datos.items.Count) disposiciones leídas</div></header>
 "@)
-    if ($clas.resumen) { [void]$sb.Append("<div class=`"resumen`">$(H $clas.resumen)</div>") }
+    if ($clas.resumen) { [void]$sb.Append("<div class=`"resumen`">$(Esc $clas.resumen)</div>") }
     [void]$sb.Append("<h2 class=`"b1`">1. Te afecta directamente <span class=`"n`">$($afecta.Count)</span></h2>" + (Tarjetas $afecta 'b1'))
     [void]$sb.Append("<h2>2. Conviene que lo sepas <span class=`"n`">$($conviene.Count)</span></h2>" + (Tarjetas $conviene ''))
     [void]$sb.Append("<h2>Noticias del sector <span class=`"n`">$($noticias.Count)</span></h2>")
     if ($noticias.Count -eq 0) { [void]$sb.Append('<p class="vacio">Sin noticias destacables hoy.</p>') }
     foreach ($n in $noticias) {
-        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(H $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(H $n.titulo)</strong></a><div class=`"src`">$(H $n.fuente)$(if ($n.fecha) { ' · ' + (H $n.fecha) })</div><div>$(H $n.resumen)</div></div>")
+        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(Esc $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(Esc $n.titulo)</strong></a><div class=`"src`">$(Esc $n.fuente)$(if ($n.fecha) { ' · ' + (Esc $n.fecha) })</div><div>$(Esc $n.resumen)</div></div>")
     }
     [void]$sb.Append("<h2>3. Descartado <span class=`"n`">$($descartados.Count)</span></h2><p class=`"orig`">Una línea por disposición, para comprobar que no se ha colado nada relevante.</p>")
     foreach ($g in ($descartados | Group-Object boletin | Sort-Object { if ($_.Name -eq 'BOE') { '0' } else { $_.Name } })) {
-        [void]$sb.Append("<details><summary>$(H $g.Name) — $($g.Count)</summary><ul>")
+        [void]$sb.Append("<details><summary>$(Esc $g.Name) — $($g.Count)</summary><ul>")
         foreach ($it in $g.Group) {
             $t = $it.titulo; if ($t.Length -gt 220) { $t = $t.Substring(0, 220) + '…' }
-            [void]$sb.Append("<li><a href=`"$(H $it.url)`" target=`"_blank`" rel=`"noopener`">$(H $t)</a></li>")
+            [void]$sb.Append("<li><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">$(Esc $t)</a></li>")
         }
         [void]$sb.Append('</ul></details>')
     }
@@ -89,7 +89,7 @@ function Pagina($prefijo, $archivoHtml) {
     foreach ($f in $datos.fuentes) {
         $cls = ''; $txt = $f.estado
         if ($f.estado -eq 'error') { $cls = ' class="err"'; $txt = 'error: ' + $f.error }
-        [void]$sb.Append("<tr><td>$(H $f.fuente)</td><td>$(H $f.fecha)</td><td$cls>$(H $txt)</td><td>$($f.n)</td></tr>")
+        [void]$sb.Append("<tr><td>$(Esc $f.fuente)</td><td>$(Esc $f.fecha)</td><td$cls>$(Esc $txt)</td><td>$($f.n)</td></tr>")
     }
     [void]$sb.Append('</table>')
     [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Ediciones anteriores</a></footer></div></body></html>")
@@ -103,41 +103,41 @@ New-Item -ItemType Directory -Force (Join-Path $docs 'ediciones') | Out-Null
 
 # Archivo de ediciones
 $eds = Get-ChildItem (Join-Path $docs 'ediciones') -Filter *.html | Sort-Object Name -Descending
-$li = ($eds | ForEach-Object { "<li><a href=`"ediciones/$($_.Name)`">$(H (FechaLarga $_.BaseName))</a></li>" }) -join ''
+$li = ($eds | ForEach-Object { "<li><a href=`"ediciones/$($_.Name)`">$(Esc (FechaLarga $_.BaseName))</a></li>" }) -join ''
 $arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Archivo</title><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><div class=`"kicker`">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header><ul class=`"archivo`">$li</ul></div></body></html>"
 [IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
 if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
 
 # ---------- Markdown para la carpeta SIO ----------
-function Md($s) { ("$s" -replace '\r?\n', ' ').Trim() }
+function Limpio($s) { ("$s" -replace '\r?\n', ' ').Trim() }
 $md = New-Object Text.StringBuilder
 [void]$md.AppendLine("# Boletines — $Edicion")
 [void]$md.AppendLine('')
 [void]$md.AppendLine("> Generado automáticamente cada mañana. Boletines revisados: $cubre · $($datos.items.Count) disposiciones.")
 [void]$md.AppendLine("> Web: https://sio-aspm.github.io/boletin-aspm/ediciones/$Edicion.html")
 [void]$md.AppendLine('')
-if ($clas.resumen) { [void]$md.AppendLine((Md $clas.resumen)); [void]$md.AppendLine('') }
+if ($clas.resumen) { [void]$md.AppendLine((Limpio $clas.resumen)); [void]$md.AppendLine('') }
 foreach ($bloque in @(@('## 1. Me afecta directamente', $afecta), @('## 2. Conviene que sepa', $conviene))) {
     [void]$md.AppendLine($bloque[0]); [void]$md.AppendLine('')
     if (@($bloque[1]).Count -eq 0) { [void]$md.AppendLine('*(nada hoy)*') }
     foreach ($x in @($bloque[1])) {
         $tit = $x.c.titular; if (-not $tit) { $tit = $x.it.titulo }
-        $pl = ''; if ($x.c.plazo) { $pl = " **Plazo: $(Md $x.c.plazo).**" }
-        [void]$md.AppendLine("- **$(Md $tit)** ($($x.it.boletin), $($x.it.fecha)).$pl $(Md $x.c.por_que) [Enlace]($($x.it.url))")
+        $pl = ''; if ($x.c.plazo) { $pl = " **Plazo: $(Limpio $x.c.plazo).**" }
+        [void]$md.AppendLine("- **$(Limpio $tit)** ($($x.it.boletin), $($x.it.fecha)).$pl $(Limpio $x.c.por_que) [Enlace]($($x.it.url))")
     }
     [void]$md.AppendLine('')
 }
 [void]$md.AppendLine('## Noticias del sector'); [void]$md.AppendLine('')
 if ($noticias.Count -eq 0) { [void]$md.AppendLine('*(sin noticias destacables)*') }
-foreach ($n in $noticias) { [void]$md.AppendLine("- [$(Md $n.titulo)]($($n.url)) — $(Md $n.fuente). $(Md $n.resumen)") }
+foreach ($n in $noticias) { [void]$md.AppendLine("- [$(Limpio $n.titulo)]($($n.url)) — $(Limpio $n.fuente). $(Limpio $n.resumen)") }
 [void]$md.AppendLine('')
 [void]$md.AppendLine("## 3. Descartado ($($descartados.Count))"); [void]$md.AppendLine('')
-foreach ($it in $descartados) { [void]$md.AppendLine("- $($it.boletin) · $(Md $it.titulo) [↗]($($it.url))") }
+foreach ($it in $descartados) { [void]$md.AppendLine("- $($it.boletin) · $(Limpio $it.titulo) [↗]($($it.url))") }
 [void]$md.AppendLine('')
 $errs = @($datos.fuentes | Where-Object { $_.estado -eq 'error' })
 if ($errs.Count -gt 0) {
     [void]$md.AppendLine('## Fuentes con error'); [void]$md.AppendLine('')
-    foreach ($e in $errs) { [void]$md.AppendLine("- $($e.fuente) ($($e.fecha)): $(Md $e.error)") }
+    foreach ($e in $errs) { [void]$md.AppendLine("- $($e.fuente) ($($e.fecha)): $(Limpio $e.error)") }
 }
 New-Item -ItemType Directory -Force $CarpetaSIO | Out-Null
 [IO.File]::WriteAllText((Join-Path $CarpetaSIO "$Edicion.md"), $md.ToString(), $utf8)

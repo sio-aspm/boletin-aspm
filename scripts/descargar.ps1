@@ -1,4 +1,4 @@
-# Descarga el BOE y los boletines autonómicos de todas las fechas pendientes.
+﻿# Descarga el BOE y los boletines autonómicos de todas las fechas pendientes.
 # Uso: powershell -ExecutionPolicy Bypass -File scripts\descargar.ps1 [-Edicion AAAA-MM-DD] [-Desde AAAA-MM-DD]
 # Genera datos\<edicion>.json (todo) y datos\<edicion>.tsv (lista compacta para clasificar).
 param(
@@ -37,7 +37,8 @@ foreach ($fecha in $fechas) {
         $fn = 'Get-Disposiciones_' + ($codigo -replace '-', '_')
         $reg = [ordered]@{ fuente = $codigo.ToUpper(); fecha = $fecha.ToString('yyyy-MM-dd'); estado = 'ok'; n = 0; error = '' }
         try {
-            $res = @(& $fn -Fecha $fecha)
+            # Aplana por si el lector devuelve la lista envuelta (return ,$lista)
+            $res = @(& $fn -Fecha $fecha | ForEach-Object { $_ })
             $n = 0
             foreach ($r in $res) {
                 if (-not $r.titulo) { continue }

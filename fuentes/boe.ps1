@@ -1,4 +1,4 @@
-# BOE — API de datos abiertos (JSON). Publica de lunes a sábado.
+﻿# BOE — API de datos abiertos (JSON). Publica de lunes a sábado.
 function Get-Disposiciones_boe {
     param([datetime]$Fecha)
     $url = "https://www.boe.es/datosabiertos/api/boe/sumario/" + $Fecha.ToString('yyyyMMdd')

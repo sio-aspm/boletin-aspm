@@ -1,0 +1,119 @@
+{
+    "edicion":  "2026-09-23",
+    "resumen":  "Día tranquilo en los boletines: el BOE de hoy no trae disposiciones generales. Lo único que te afecta directamente es una ayuda de Galicia para el transporte escolar individual, que incluye al alumnado de educación especial y tiene un mes de plazo. Atenta a los próximos días: la reforma de las leyes de dependencia y discapacidad, aprobada por el Congreso el 16 de septiembre, está pendiente de publicarse en el BOE.",
+    "afecta":  [
+                   {
+                       "id":  "DOG-0923-1",
+                       "titular":  "Galicia abre ayudas individuales de transporte escolar, también para alumnado de educación especial",
+                       "por_que":  "Compensa los gastos de las familias cuyo hijo o hija no puede usar el transporte escolar contratado por la Xunta; incluye educación especial y prevé supuestos por discapacidad. Avisa a las familias gallegas con menores escolarizados que se desplazan por su cuenta.",
+                       "plazo":  "un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026 aprox.)"
+                   }
+               ],
+    "conviene":  [
+                     {
+                         "id":  "DOG-0923-5",
+                         "titular":  "Galicia pide subsanar documentación en las ayudas a la conciliación por reducción de jornada",
+                         "por_que":  "Si alguna familia gallega pidió esta ayuda (en algunos casos exige la resolución de grado de discapacidad de los hijos menores de 12 años), tiene 10 días hábiles para completar la documentación.",
+                         "plazo":  "10 días hábiles desde el 24 de septiembre"
+                     },
+                     {
+                         "id":  "DOE-0923-12",
+                         "titular":  "Extremadura resuelve sobre las subvenciones a entidades de personas con enfermedad crónica y sus familias",
+                         "por_que":  "Convocatoria para asociaciones de pacientes y familiares, del tipo en el que encaja una entidad de enfermedad rara. Útil como referencia para futuras convocatorias autonómicas.",
+                         "plazo":  ""
+                     },
+                     {
+                         "id":  "BOR-0923-8",
+                         "titular":  "La Rioja concede 148.200 € a entidades sin ánimo de lucro para programas de atención a la diversidad en el curso 2025-2026",
+                         "por_que":  "Línea autonómica de educación inclusiva para entidades; conviene tenerla en el radar para próximas convocatorias.",
+                         "plazo":  ""
+                     },
+                     {
+                         "id":  "DOE-0923-6",
+                         "titular":  "Extremadura firma un convenio con la Plataforma del Tercer Sector para fortalecer sus redes",
+                         "por_que":  "Muestra cómo se financia la estructura del tercer sector social en otras comunidades.",
+                         "plazo":  ""
+                     },
+                     {
+                         "id":  "BOC-CANARIAS-0923-1",
+                         "titular":  "Canarias convalida el decreto ley que implanta su nuevo modelo de acreditación y calidad de centros y servicios de dependencia",
+                         "por_que":  "Cambia cómo se acreditan los centros y servicios de dependencia en Canarias; relevante si tienes familias canarias usuarias de centros de día o residencias.",
+                         "plazo":  ""
+                     },
+                     {
+                         "id":  "BOA-0923-12",
+                         "titular":  "Aragón convoca ayudas para clubes deportivos con acciones de deporte inclusivo",
+                         "por_que":  "Pueden pedirla los clubes, no las familias, pero puede ampliar la oferta de deporte adaptado para niños y niñas con discapacidad en Aragón.",
+                         "plazo":  ""
+                     }
+                 ],
+    "noticias":  [
+                     {
+                         "titulo":  "El Congreso aprueba la gran reforma de la dependencia y la discapacidad",
+                         "fuente":  "Ministerio de Derechos Sociales",
+                         "fecha":  "16 de septiembre de 2026",
+                         "url":  "https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos",
+                         "resumen":  "Aprobación definitiva. Para tus familias: reconocimiento automático de discapacidad (33 % con Grado I de dependencia; 65 % con Grado II-III), atención temprana de 0 a 6 años como derecho subjetivo, compatibilidad de servicios (centro de día y cuidados familiares) y plazos de resolución más cortos. Pendiente de publicación en el BOE."
+                     },
+                     {
+                         "titulo":  "Bustinduy: «Vamos a vigilar que las comunidades cumplan con la ley de dependencia»",
+                         "fuente":  "Infobae (EFE)",
+                         "fecha":  "20 de septiembre de 2026",
+                         "url":  "https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/",
+                         "resumen":  "El ministro anuncia que presionará a las comunidades autónomas para que apliquen la reforma y reduzcan las listas de espera con la nueva financiación."
+                     },
+                     {
+                         "titulo":  "Seis años para un diagnóstico: la odisea del peregrinaje con una enfermedad rara",
+                         "fuente":  "Infobae (EFE) · FEDER",
+                         "fecha":  "20 de septiembre de 2026",
+                         "url":  "https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/",
+                         "resumen":  "FEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a medicamentos huérfanos y más inversión en investigación."
+                     },
+                     {
+                         "titulo":  "Tododisca, galardonada en los Premios cermi.es 2026",
+                         "fuente":  "Tododisca · CERMI",
+                         "fecha":  "22 de septiembre de 2026",
+                         "url":  "https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/",
+                         "resumen":  "El CERMI ha dado a conocer los premiados de la XXV edición de sus premios; Tododisca gana en la categoría de medios de comunicación e imagen social de la discapacidad."
+                     }
+                 ],
+    "omitir_titulo":  [
+                          "DOCM-0923-3",
+                          "DOCM-0923-4",
+                          "DOCM-0923-7",
+                          "DOCM-0923-13",
+                          "DOCM-0923-14",
+                          "DOCM-0923-15",
+                          "DOCM-0923-16",
+                          "DOCM-0923-17",
+                          "DOCM-0923-18",
+                          "DOCM-0923-19",
+                          "DOCM-0923-20",
+                          "DOCM-0923-21",
+                          "DOCM-0923-22",
+                          "DOCM-0923-23",
+                          "DOCM-0923-24",
+                          "DOG-0923-17",
+                          "DOG-0923-18",
+                          "DOG-0923-19",
+                          "DOG-0923-20",
+                          "DOG-0923-30",
+                          "DOG-0923-36",
+                          "DOG-0923-37",
+                          "BON-0923-26",
+                          "DOGC-0923-32",
+                          "DOGC-0923-33",
+                          "BOJA-0923-36",
+                          "BOJA-0923-37",
+                          "BOJA-0923-38",
+                          "BOJA-0923-39",
+                          "BOJA-0923-40",
+                          "BOJA-0923-41",
+                          "BOPA-0923-5",
+                          "BOPA-0923-6",
+                          "BOC-CANARIAS-0923-11",
+                          "BOPA-0923-17",
+                          "BOC-CANTABRIA-0923-33",
+                          "BOC-CANTABRIA-0923-34"
+                      ]
+}
