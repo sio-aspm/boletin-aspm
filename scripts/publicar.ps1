@@ -64,7 +64,7 @@ function Pagina($prefijo, $archivoHtml) {
     $sb = New-Object Text.StringBuilder
     [void]$sb.Append(@"
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boletín ASPM · $(Esc (FechaLarga $Edicion))</title><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
+<title>Boletín ASPM · $(Esc (FechaLarga $Edicion))</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
 <header class="top"><div class="kicker">Boletín ASPM · Discapacidad, dependencia y familias</div><h1>$(Esc (FechaLarga $Edicion))</h1>
 <div class="meta">Boletines revisados: $(Esc $cubre) · $($datos.items.Count) disposiciones leídas</div></header>
 "@)
@@ -104,7 +104,7 @@ New-Item -ItemType Directory -Force (Join-Path $docs 'ediciones') | Out-Null
 # Archivo de ediciones
 $eds = Get-ChildItem (Join-Path $docs 'ediciones') -Filter *.html | Sort-Object Name -Descending
 $li = ($eds | ForEach-Object { "<li><a href=`"ediciones/$($_.Name)`">$(Esc (FechaLarga $_.BaseName))</a></li>" }) -join ''
-$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Archivo</title><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><div class=`"kicker`">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header><ul class=`"archivo`">$li</ul></div></body></html>"
+$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Archivo</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><div class=`"kicker`">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header><ul class=`"archivo`">$li</ul></div></body></html>"
 [IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
 if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
 
