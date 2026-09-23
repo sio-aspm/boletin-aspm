@@ -1,0 +1,160 @@
+# Genera la newsletter (HTML en docs\) y el archivo de tres bloques para la carpeta SIO,
+# a partir de datos\<edicion>.json (descarga) y clasificacion\<edicion>.json (criterio de Claude).
+# Uso: powershell -ExecutionPolicy Bypass -File scripts\publicar.ps1 -Edicion AAAA-MM-DD [-SinPush]
+param(
+    [string]$Edicion = (Get-Date).ToString('yyyy-MM-dd'),
+    [string]$CarpetaSIO = 'C:\Users\Usuario\Downloads\SIO - IA\ASPM\boletines',
+    [switch]$SinPush
+)
+$ErrorActionPreference = 'Stop'
+$raiz = Split-Path -Parent $PSScriptRoot
+$utf8 = New-Object Text.UTF8Encoding $false
+function Leer-Json($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json }
+function H($s) { [Net.WebUtility]::HtmlEncode("$s") }
+
+$datos = Leer-Json (Join-Path $raiz "datos\$Edicion.json")
+$clas = Leer-Json (Join-Path $raiz "clasificacion\$Edicion.json")
+
+$porId = @{}
+foreach ($it in $datos.items) { $porId[$it.id] = $it }
+$usados = @{}
+function Resolver($lista) {
+    $out = @()
+    foreach ($c in @($lista)) {
+        if ($null -eq $c) { continue }
+        $it = $porId[$c.id]
+        if ($null -eq $it) { Write-Warning "id desconocido en la clasificación: $($c.id)"; continue }
+        $usados[$c.id] = $true
+        $out += [pscustomobject]@{ c = $c; it = $it }
+    }
+    return $out
+}
+$afecta = @(Resolver $clas.afecta)
+$conviene = @(Resolver $clas.conviene)
+$descartados = @($datos.items | Where-Object { -not $usados.ContainsKey($_.id) })
+# Notificaciones a personas con nombre: no se reproduce el título (datos personales de terceros)
+$omitir = @{}
+foreach ($id in @($clas.omitir_titulo)) { if ($id) { $omitir["$id"] = $true } }
+foreach ($it in $descartados) {
+    if ($omitir.ContainsKey($it.id)) { $it.titulo = 'Notificación o acto dirigido a una persona física (título omitido por privacidad)' }
+}
+$noticias = @($clas.noticias | Where-Object { $_ })
+
+$meses = 'enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'
+function FechaLarga($iso) { $d = [datetime]::ParseExact($iso, 'yyyy-MM-dd', $null); "$($d.Day) de $($meses[$d.Month-1]) de $($d.Year)" }
+$cubre = (@($datos.fechas) | ForEach-Object { FechaLarga $_ }) -join ', '
+
+# ---------- HTML ----------
+function Tarjetas($lista, $clase) {
+    if ($lista.Count -eq 0) { return '<p class="vacio">Nada hoy en este bloque.</p>' }
+    $sb = New-Object Text.StringBuilder
+    foreach ($x in $lista) {
+        $c = $x.c; $it = $x.it
+        $titular = $c.titular; if (-not $titular) { $titular = $it.titulo }
+        [void]$sb.Append("<article class=`"card $clase`"><div class=`"tags`"><span class=`"tag`">$(H $it.boletin)</span><span class=`"tag`">$(H (FechaLarga $it.fecha))</span>")
+        if ($c.plazo) { [void]$sb.Append("<span class=`"tag plazo`">Plazo: $(H $c.plazo)</span>") }
+        [void]$sb.Append("</div><h3>$(H $titular)</h3>")
+        if ($c.por_que) { [void]$sb.Append("<p>$(H $c.por_que)</p>") }
+        [void]$sb.Append("<p class=`"orig`">$(H $it.departamento) · $(H $it.titulo)</p><p><a href=`"$(H $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a></p></article>")
+    }
+    return $sb.ToString()
+}
+
+function Pagina($prefijo, $archivoHtml) {
+    $sb = New-Object Text.StringBuilder
+    [void]$sb.Append(@"
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Boletín ASPM · $(H (FechaLarga $Edicion))</title><link rel="stylesheet" href="${prefijo}estilo.css"></head><body><div class="wrap">
+<header class="top"><div class="kicker">Boletín ASPM · Discapacidad, dependencia y familias</div><h1>$(H (FechaLarga $Edicion))</h1>
+<div class="meta">Boletines revisados: $(H $cubre) · $($datos.items.Count) disposiciones leídas</div></header>
+"@)
+    if ($clas.resumen) { [void]$sb.Append("<div class=`"resumen`">$(H $clas.resumen)</div>") }
+    [void]$sb.Append("<h2 class=`"b1`">1. Te afecta directamente <span class=`"n`">$($afecta.Count)</span></h2>" + (Tarjetas $afecta 'b1'))
+    [void]$sb.Append("<h2>2. Conviene que lo sepas <span class=`"n`">$($conviene.Count)</span></h2>" + (Tarjetas $conviene ''))
+    [void]$sb.Append("<h2>Noticias del sector <span class=`"n`">$($noticias.Count)</span></h2>")
+    if ($noticias.Count -eq 0) { [void]$sb.Append('<p class="vacio">Sin noticias destacables hoy.</p>') }
+    foreach ($n in $noticias) {
+        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(H $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(H $n.titulo)</strong></a><div class=`"src`">$(H $n.fuente)$(if ($n.fecha) { ' · ' + (H $n.fecha) })</div><div>$(H $n.resumen)</div></div>")
+    }
+    [void]$sb.Append("<h2>3. Descartado <span class=`"n`">$($descartados.Count)</span></h2><p class=`"orig`">Una línea por disposición, para comprobar que no se ha colado nada relevante.</p>")
+    foreach ($g in ($descartados | Group-Object boletin | Sort-Object { if ($_.Name -eq 'BOE') { '0' } else { $_.Name } })) {
+        [void]$sb.Append("<details><summary>$(H $g.Name) — $($g.Count)</summary><ul>")
+        foreach ($it in $g.Group) {
+            $t = $it.titulo; if ($t.Length -gt 220) { $t = $t.Substring(0, 220) + '…' }
+            [void]$sb.Append("<li><a href=`"$(H $it.url)`" target=`"_blank`" rel=`"noopener`">$(H $t)</a></li>")
+        }
+        [void]$sb.Append('</ul></details>')
+    }
+    [void]$sb.Append('<h2>Estado de las fuentes</h2><table class="fuentes"><tr><th>Boletín</th><th>Fecha</th><th>Estado</th><th>Nº</th></tr>')
+    foreach ($f in $datos.fuentes) {
+        $cls = ''; $txt = $f.estado
+        if ($f.estado -eq 'error') { $cls = ' class="err"'; $txt = 'error: ' + $f.error }
+        [void]$sb.Append("<tr><td>$(H $f.fuente)</td><td>$(H $f.fecha)</td><td$cls>$(H $txt)</td><td>$($f.n)</td></tr>")
+    }
+    [void]$sb.Append('</table>')
+    [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Ediciones anteriores</a></footer></div></body></html>")
+    return $sb.ToString()
+}
+
+$docs = Join-Path $raiz 'docs'
+New-Item -ItemType Directory -Force (Join-Path $docs 'ediciones') | Out-Null
+[IO.File]::WriteAllText((Join-Path $docs "ediciones\$Edicion.html"), (Pagina '../' '../archivo.html'), $utf8)
+[IO.File]::WriteAllText((Join-Path $docs 'index.html'), (Pagina '' 'archivo.html'), $utf8)
+
+# Archivo de ediciones
+$eds = Get-ChildItem (Join-Path $docs 'ediciones') -Filter *.html | Sort-Object Name -Descending
+$li = ($eds | ForEach-Object { "<li><a href=`"ediciones/$($_.Name)`">$(H (FechaLarga $_.BaseName))</a></li>" }) -join ''
+$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Archivo</title><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><div class=`"kicker`">Boletín ASPM</div><h1>Ediciones anteriores</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header><ul class=`"archivo`">$li</ul></div></body></html>"
+[IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
+if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
+
+# ---------- Markdown para la carpeta SIO ----------
+function Md($s) { ("$s" -replace '\r?\n', ' ').Trim() }
+$md = New-Object Text.StringBuilder
+[void]$md.AppendLine("# Boletines — $Edicion")
+[void]$md.AppendLine('')
+[void]$md.AppendLine("> Generado automáticamente cada mañana. Boletines revisados: $cubre · $($datos.items.Count) disposiciones.")
+[void]$md.AppendLine("> Web: https://sio-aspm.github.io/boletin-aspm/ediciones/$Edicion.html")
+[void]$md.AppendLine('')
+if ($clas.resumen) { [void]$md.AppendLine((Md $clas.resumen)); [void]$md.AppendLine('') }
+foreach ($bloque in @(@('## 1. Me afecta directamente', $afecta), @('## 2. Conviene que sepa', $conviene))) {
+    [void]$md.AppendLine($bloque[0]); [void]$md.AppendLine('')
+    if (@($bloque[1]).Count -eq 0) { [void]$md.AppendLine('*(nada hoy)*') }
+    foreach ($x in @($bloque[1])) {
+        $tit = $x.c.titular; if (-not $tit) { $tit = $x.it.titulo }
+        $pl = ''; if ($x.c.plazo) { $pl = " **Plazo: $(Md $x.c.plazo).**" }
+        [void]$md.AppendLine("- **$(Md $tit)** ($($x.it.boletin), $($x.it.fecha)).$pl $(Md $x.c.por_que) [Enlace]($($x.it.url))")
+    }
+    [void]$md.AppendLine('')
+}
+[void]$md.AppendLine('## Noticias del sector'); [void]$md.AppendLine('')
+if ($noticias.Count -eq 0) { [void]$md.AppendLine('*(sin noticias destacables)*') }
+foreach ($n in $noticias) { [void]$md.AppendLine("- [$(Md $n.titulo)]($($n.url)) — $(Md $n.fuente). $(Md $n.resumen)") }
+[void]$md.AppendLine('')
+[void]$md.AppendLine("## 3. Descartado ($($descartados.Count))"); [void]$md.AppendLine('')
+foreach ($it in $descartados) { [void]$md.AppendLine("- $($it.boletin) · $(Md $it.titulo) [↗]($($it.url))") }
+[void]$md.AppendLine('')
+$errs = @($datos.fuentes | Where-Object { $_.estado -eq 'error' })
+if ($errs.Count -gt 0) {
+    [void]$md.AppendLine('## Fuentes con error'); [void]$md.AppendLine('')
+    foreach ($e in $errs) { [void]$md.AppendLine("- $($e.fuente) ($($e.fecha)): $(Md $e.error)") }
+}
+New-Item -ItemType Directory -Force $CarpetaSIO | Out-Null
+[IO.File]::WriteAllText((Join-Path $CarpetaSIO "$Edicion.md"), $md.ToString(), $utf8)
+
+# ---------- Estado y publicación ----------
+New-Item -ItemType Directory -Force (Join-Path $raiz 'estado') | Out-Null
+[IO.File]::WriteAllText((Join-Path $raiz 'estado\ultima-fecha.txt'), @($datos.fechas)[-1], $utf8)
+Write-Host "Generado: afecta=$($afecta.Count) conviene=$($conviene.Count) noticias=$($noticias.Count) descartados=$($descartados.Count)"
+
+if (-not $SinPush) {
+    $git = 'C:\Program Files\Git\cmd\git.exe'
+    Push-Location $raiz
+    try {
+        & $git add -A
+        & $git commit -q -m "Edición $Edicion"
+        & $git push -q origin main
+        if ($LASTEXITCODE -ne 0) { throw "git push falló (código $LASTEXITCODE)" }
+        Write-Host 'Publicado en GitHub Pages.'
+    } finally { Pop-Location }
+}
