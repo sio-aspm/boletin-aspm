@@ -29,4 +29,4 @@
   }
   q.addEventListener('input', pintar); tipo.addEventListener('change', pintar); pintar();
 })();
-</script></div></body></html>
+</script></div><script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.reenviar");if(!a)return;var t=new Date().getHours()>=14,de=encodeURIComponent(t?"Buenos días":"Buenas tardes"),a2=encodeURIComponent(t?"Buenas tardes":"Buenos días");a.href=a.href.replace(de,a2);});</script></body></html>

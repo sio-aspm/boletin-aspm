@@ -50,14 +50,17 @@ $cubre = (@($datos.fechas) | ForEach-Object { FechaLarga $_ }) -join ', '
 # si falta, se genera uno genérico con el titular, el plazo y el enlace.
 function Correo($c, $titular, $plazo, $url, [switch]$Tramite) {
     if ($c.correo -and $c.correo.cuerpo) { return [pscustomobject]@{ asunto = "$($c.correo.asunto)"; cuerpo = "$($c.correo.cuerpo)" } }
-    $asunto = $titular; if ($plazo) { $asunto += " — plazo: $plazo" }
-    $cuerpo = "Hola:`n`nOs paso esta información por si os resulta útil.`n`n$titular.`n"
+    $asunto = $titular; if ($plazo) { $asunto += " - Plazo: $plazo" }
+    $cuerpo = "Buenos días familia 😊`n`nOs hago llegar información sobre esto: $titular.`n"
     if ($plazo) { $cuerpo += "`nPlazo: $plazo`n" }
     $cuerpo += "`nMás información: $url`n"
-    if ($Tramite) { $cuerpo += "`nSi queréis que lo veamos juntos o necesitáis ayuda con la solicitud, decídmelo.`n" }
-    $cuerpo += "`nUn saludo,"
+    if ($Tramite) { $cuerpo += "`nSi tenéis dudas o queréis que lo veamos juntos, por favor decídmelo y lo comentamos sin problema.`n" }
+    else { $cuerpo += "`nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.`n" }
+    $cuerpo += "`nMuchas gracias.`n`nUn saludo,"
     return [pscustomobject]@{ asunto = $asunto; cuerpo = $cuerpo }
 }
+# Al pulsar el botón, el saludo se adapta a la hora: «Buenos días» antes de las 14:00, «Buenas tardes» después.
+$scriptSaludo = '<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.reenviar");if(!a)return;var t=new Date().getHours()>=14,de=encodeURIComponent(t?"Buenos días":"Buenas tardes"),a2=encodeURIComponent(t?"Buenas tardes":"Buenos días");a.href=a.href.replace(de,a2);});</script>'
 function Boton($m) {
     $u = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + [Uri]::EscapeDataString($m.asunto) + '&body=' + [Uri]::EscapeDataString(($m.cuerpo -replace "`r", ''))
     "<a class=`"reenviar`" href=`"$(Esc $u)`" target=`"_blank`" rel=`"noopener`">✉ Reenviar por correo</a>"
@@ -112,7 +115,7 @@ function Pagina($prefijo, $archivoHtml) {
         [void]$sb.Append("<tr><td>$(Esc $f.fuente)</td><td>$(Esc $f.fecha)</td><td$cls>$(Esc $txt)</td><td>$($f.n)</td></tr>")
     }
     [void]$sb.Append('</table>')
-    [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Histórico y buscador</a></footer></div></body></html>")
+    [void]$sb.Append("<footer>Selección automática hecha con IA a partir de los boletines oficiales. Comprueba siempre el texto en la fuente oficial antes de actuar. · <a href=`"${archivoHtml}`">Histórico y buscador</a></footer></div>$scriptSaludo</body></html>")
     return $sb.ToString()
 }
 
@@ -183,7 +186,7 @@ $li = @"
 })();
 </script>
 "@
-$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Histórico</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><a href=`"https://22q13.org.es/`" target=`"_blank`" rel=`"noopener`"><img class=`"logo`" src=`"logo-aspm.png`" alt=`"Asociación Síndrome Phelan-McDermid`" width=`"200`" height=`"58`"></a><div class=`"kicker`">Boletín ASPM</div><h1>Histórico</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header>$li</div></body></html>"
+$arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Histórico</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><a href=`"https://22q13.org.es/`" target=`"_blank`" rel=`"noopener`"><img class=`"logo`" src=`"logo-aspm.png`" alt=`"Asociación Síndrome Phelan-McDermid`" width=`"200`" height=`"58`"></a><div class=`"kicker`">Boletín ASPM</div><h1>Histórico</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header>$li</div>$scriptSaludo</body></html>"
 [IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
 if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
 

@@ -9,8 +9,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos",
         "original":  "16 de septiembre de 2026",
-        "asunto":  "Aprobada la reforma de las leyes de dependencia y discapacidad: qué cambia",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Congreso aprobó el 16 de septiembre la reforma de las leyes de dependencia y discapacidad. Lo más importante para las familias:\n- Reconocimiento automático de discapacidad: 33 % con Grado I de dependencia y 65 % con Grado II o III.\n- La atención temprana de 0 a 6 años pasa a ser un derecho.\n- Se podrán compatibilizar servicios (por ejemplo, centro de día y cuidados en el entorno familiar).\n- Plazos de resolución más cortos.\n\nTodavía falta su publicación en el BOE para que entre en vigor. Os iré contando.\n\nMás información: https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos\n\nUn saludo,"
+        "asunto":  "Reforma dependencia y discapacidad - Qué cambia para las familias",
+        "cuerpo":  "Buenos días familia 😊\n\nOs comparto esta noticia importante: el Congreso aprobó el 16 de septiembre la reforma de las leyes de dependencia y discapacidad. Lo más importante para vosotros:\n- Reconocimiento automático de discapacidad: 33 % con Grado I de dependencia y 65 % con Grado II o III.\n- La atención temprana de 0 a 6 años pasa a ser un derecho.\n- Se podrán compatibilizar servicios (por ejemplo, centro de día y cuidados en el entorno familiar).\n- Plazos de resolución más cortos.\n\nTodavía falta su publicación en el BOE para que entre en vigor. Os iré informando.\n\nMás información: https://www.dsca.gob.es/es/comunicacion/notas-prensa/congreso-aprueba-gran-reforma-dependencia-discapacidad-nuevos-derechos\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -22,8 +22,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VERDOC\u0026BASE=BOLE\u0026DOCN=007961283",
         "original":  "ORDEN PJC/1359/2026, de 4 de septiembre, por la que se convocan ayudas para clubes deportivos aragoneses que realicen acciones de deporte inclusivo en 2026.",
-        "asunto":  "Aragón: ayudas para clubes deportivos con acciones de deporte inclusivo",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Gobierno de Aragón ha convocado ayudas para clubes deportivos que desarrollen acciones de deporte inclusivo. Las piden los clubes, no las familias, pero puede ser buen momento para comentárselo al club de vuestra zona y ampliar la oferta de deporte adaptado para niños y niñas con discapacidad.\n\nMás información: https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VERDOC\u0026BASE=BOLE\u0026DOCN=007961283\n\nUn saludo,"
+        "asunto":  "Deporte inclusivo Aragón - Ayudas para clubes deportivos",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre las ayudas que ha convocado el Gobierno de Aragón para clubes deportivos con acciones de deporte inclusivo. Las piden los clubes, no las familias, pero puede ser buen momento para comentárselo al club de vuestra zona y ampliar la oferta de deporte adaptado para niños y niñas con discapacidad.\n\nMás información: https://www.boa.aragon.es/cgi-bin/EBOA/BRSCGI?CMD=VERDOC\u0026BASE=BOLE\u0026DOCN=007961283\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -35,8 +35,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/",
         "original":  "20 de septiembre de 2026",
-        "asunto":  "El Ministerio vigilará que las comunidades apliquen la reforma de la dependencia",
-        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nEl ministro de Derechos Sociales ha anunciado que vigilará que las comunidades autónomas apliquen la reforma de la ley de dependencia y reduzcan las listas de espera con la nueva financiación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/\n\nUn saludo,"
+        "asunto":  "Ley de dependencia - El Ministerio vigilará su aplicación en las comunidades",
+        "cuerpo":  "Buenos días familia 😊\n\nOs comparto esta noticia: el ministro de Derechos Sociales ha anunciado que vigilará que las comunidades autónomas apliquen la reforma de la ley de dependencia y reduzcan las listas de espera con la nueva financiación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/bustinduy-vamos-a-vigilar-que-las-comunidades-cumplan-con-la-ley-de-dependencia/\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -48,8 +48,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/",
         "original":  "22 de septiembre de 2026",
-        "asunto":  "Premios cermi.es 2026: Tododisca, premiada en comunicación",
-        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nEl CERMI ha dado a conocer los premiados de la XXV edición de los Premios cermi.es. Tododisca ha sido galardonada en la categoría de medios de comunicación e imagen social de la discapacidad.\n\nMás información: https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/\n\nUn saludo,"
+        "asunto":  "Premios cermi.es 2026 - Tododisca, premiada en comunicación",
+        "cuerpo":  "Buenos días familia 😊\n\nOs comparto esta noticia: el CERMI ha dado a conocer los premiados de la XXV edición de los Premios cermi.es. Tododisca ha sido galardonada en la categoría de medios de comunicación e imagen social de la discapacidad.\n\nMás información: https://tododisca.es/discapacidad/tododisca-galardonada-premios-cermi-2026-labor-visibilizacion-informacion-discapacidad/\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -61,8 +61,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/",
         "original":  "20 de septiembre de 2026",
-        "asunto":  "Seis años de media para un diagnóstico de enfermedad rara (FEDER)",
-        "cuerpo":  "Hola:\n\nOs paso esta noticia por si os interesa.\n\nFEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a los medicamentos huérfanos y más inversión en investigación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/\n\nUn saludo,"
+        "asunto":  "Enfermedades raras - Seis años de media para un diagnóstico",
+        "cuerpo":  "Buenos días familia 😊\n\nOs comparto esta noticia: FEDER recuerda que el diagnóstico de una enfermedad rara tarda de media seis años y reclama acceso equitativo a los medicamentos huérfanos y más inversión en investigación.\n\nMás información: https://www.infobae.com/espana/agencias/2026/09/20/seis-anos-para-un-diagnostico-la-odisea-del-peregrinaje-con-una-enfermedad-rara/\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -74,8 +74,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://www.gobiernodecanarias.org/boc/2026/191/3305.html",
         "original":  "RESOLUCIÓN de 11 de septiembre de 2026, de la Presidencia, por la que se ordena la publicación del Acuerdo de convalidación del Decreto ley 5/2026, de 27 de julio, de medidas fiscales, de medidas para garantizar una gestión más eficiente de los fondos europeos de recuperación Next Generation, y de medidas para garantizar la plena operatividad del nuevo modelo de funcionamiento, acreditación y calidad de centros y servicios en el ámbito de la promoción de la autonomía personal y la atención a personas en situación de dependencia en Canarias (11L/DL-0025).",
-        "asunto":  "Canarias: nuevo modelo de acreditación y calidad de centros y servicios de dependencia",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nEl Parlamento de Canarias ha convalidado el decreto ley que implanta un nuevo modelo de acreditación y calidad para los centros y servicios de atención a la dependencia (centros de día, residencias y otros servicios). Si usáis alguno de estos recursos en Canarias, puede haber cambios en los próximos meses.\n\nMás información: https://www.gobiernodecanarias.org/boc/2026/191/3305.html\n\nUn saludo,"
+        "asunto":  "Dependencia Canarias - Nuevo modelo de acreditación de centros y servicios",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre el nuevo modelo de acreditación y calidad de los centros y servicios de atención a la dependencia en Canarias (centros de día, residencias y otros servicios). El Parlamento canario ha convalidado el decreto ley que lo implanta, así que si usáis alguno de estos recursos puede haber cambios en los próximos meses.\n\nMás información: https://www.gobiernodecanarias.org/boc/2026/191/3305.html\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -87,8 +87,8 @@ window.HISTORICO = [
         "plazo":  "10 días hábiles desde el 24 de septiembre",
         "url":  "https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0762-150926-0004_es.html",
         "original":  "RESOLUCIÓN de 11 de septiembre de 2026, de la Dirección General de Promoción de la Igualdad, por la que se publica el requerimiento de subsanación de documentación de las solicitudes presentadas al amparo de la Orden de 9 de julio de 2026 por la que se establecen las bases reguladoras que regirán las ayudas a la conciliación de la vida personal, familiar y laboral, por reducción de la jornada de trabajo como medida de fomento de la corresponsabilidad, cofinanciadas por la Unión Europea en el marco del programa FSE+ Galicia 2021-2027, y se convocan para el año 2026 (código de procedimiento SI440A).",
-        "asunto":  "Galicia: plazo para completar documentación en las ayudas a la conciliación por reducción de jornada",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os afecta.\n\nLa Xunta de Galicia ha publicado el requerimiento para subsanar documentación en las ayudas a la conciliación por reducción de jornada. Si pedisteis esta ayuda, comprobad si aparecéis en la lista: en algunos casos se pide la resolución del grado de discapacidad de los hijos o hijas menores de 12 años.\n\nPlazo: 10 días hábiles desde el 24 de septiembre.\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0762-150926-0004_es.html\n\nSi queréis que lo veamos juntos o necesitáis ayuda con la documentación, decídmelo.\n\nUn saludo,"
+        "asunto":  "Ayudas conciliación Galicia - Plazo para completar documentación",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre las ayudas a la conciliación por reducción de jornada de la Xunta de Galicia. Se ha publicado el requerimiento para completar documentación: si pedisteis esta ayuda, comprobad si aparecéis en la lista. En algunos casos se pide la resolución del grado de discapacidad de los hijos o hijas menores de 12 años.\n\nPlazo: 10 días hábiles desde el 24 de septiembre.\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0762-150926-0004_es.html\n\nSi tenéis dudas o queréis que lo veamos juntos, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -100,8 +100,8 @@ window.HISTORICO = [
         "plazo":  "un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026 aprox.)",
         "url":  "https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0759-150926-0005_es.html",
         "original":  "ORDEN de 17 de septiembre de 2026 por la que se establecen las bases para la concesión de las compensaciones de gastos del transporte escolar, de carácter individual, para alumnado con derecho a transporte escolar que no pueda hacer uso de los servicios de transporte escolar contratados por la Xunta de Galicia (código de procedimiento IF306A).",
-        "asunto":  "Ayudas de transporte escolar en Galicia (también educación especial) — plazo hasta el 23 de octubre",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Xunta de Galicia ha abierto las ayudas individuales de transporte escolar. Son para las familias cuyo hijo o hija no puede usar el transporte escolar contratado y tiene que desplazarse por su cuenta al centro. Incluyen al alumnado de educación especial y contemplan supuestos por discapacidad.\n\nPlazo: un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026, aproximadamente).\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0759-150926-0005_es.html\n\nSi queréis que lo veamos juntos o necesitáis ayuda con la solicitud, decídmelo.\n\nUn saludo,"
+        "asunto":  "Ayudas transporte escolar Galicia - Plazo hasta el 23 de octubre",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre las ayudas individuales de transporte escolar que ha abierto la Xunta de Galicia. Son para las familias cuyo hijo o hija no puede usar el transporte escolar contratado y se desplaza por su cuenta al centro. Incluyen al alumnado de educación especial y contemplan supuestos por discapacidad.\n\nPlazo: un mes desde el 24 de septiembre (hasta el 23 de octubre de 2026, aproximadamente).\n\nMás información: https://www.xunta.gal/dog/Publicados/2026/20260923/AnuncioG0759-150926-0005_es.html\n\nSi tenéis dudas o queréis que lo veamos juntos, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -113,8 +113,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://doe.juntaex.es/pdfs/doe/2026/1840o/26062386.pdf",
         "original":  "Salud. Subvenciones.- Resolución de 15 de septiembre de 2026, de la Dirección General de Planificación, Formación y Calidad, en relación a las solicitudes presentadas al amparo de la Resolución de 22 de junio de 2026, de la Secretaría General, por la que se aprueba la convocatoria pública de concesión de subvenciones destinadas a la financiación de proyectos de entidades de personas afectadas por una enfermedad crónica y/o de sus familiares, desarrollados en el ámbito de la Comunidad Autónoma de Extremadura para el año 2026.",
-        "asunto":  "Extremadura: resolución de subvenciones a entidades de personas con enfermedad crónica",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nExtremadura ha resuelto la convocatoria de subvenciones para asociaciones de personas con enfermedad crónica y sus familias. Es una línea en la que encajan las entidades de enfermedades raras, así que sirve de referencia para las próximas convocatorias autonómicas.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062386.pdf\n\nUn saludo,"
+        "asunto":  "Subvenciones Extremadura - Entidades de personas con enfermedad crónica",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre la resolución de las subvenciones de Extremadura para asociaciones de personas con enfermedad crónica y sus familias. Es una línea en la que encajan las entidades de enfermedades raras, así que sirve de referencia para próximas convocatorias autonómicas.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062386.pdf\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -126,8 +126,8 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://doe.juntaex.es/pdfs/doe/2026/1840o/26062369.pdf",
         "original":  "Convenios.- Resolución de 16 de septiembre de 2026, de la Secretaría General, por la que se da publicidad al Convenio de Colaboración entre la Vicepresidencia y Consejería de Desregulación, Servicios Sociales y Familia de la Junta de Extremadura y la Plataforma del Tercer Sector de Extremadura para apoyar el fortalecimiento, promoción y reconocimiento de las redes extremeñas del Tercer Sector Social en Extremadura. RCN202600252.",
-        "asunto":  "Extremadura: convenio con la Plataforma del Tercer Sector para fortalecer sus redes",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Junta de Extremadura ha firmado un convenio con la Plataforma del Tercer Sector para financiar el fortalecimiento de sus redes. Es un buen ejemplo de cómo se sostiene la estructura del tercer sector social en otras comunidades.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062369.pdf\n\nUn saludo,"
+        "asunto":  "Tercer Sector Extremadura - Convenio para fortalecer sus redes",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre el convenio que ha firmado la Junta de Extremadura con la Plataforma del Tercer Sector para financiar el fortalecimiento de sus redes. Es un buen ejemplo de cómo se sostiene la estructura del tercer sector social en otras comunidades.\n\nMás información: https://doe.juntaex.es/pdfs/doe/2026/1840o/26062369.pdf\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     },
     {
         "edicion":  "2026-09-23",
@@ -139,7 +139,7 @@ window.HISTORICO = [
         "plazo":  "",
         "url":  "https://web.larioja.org/bor-portada/boranuncio?n=42279118-3-HTML-579848-X",
         "original":  "SUBVENCIONES: concesión de subvenciones a entidades sin ánimo de lucro para la ejecución de programas en el marco de Atención a la Diversidad, durante el curso 2025-2026",
-        "asunto":  "La Rioja: 148.200 € para programas de atención a la diversidad de entidades sin ánimo de lucro",
-        "cuerpo":  "Hola:\n\nOs paso esta información por si os resulta útil.\n\nLa Rioja ha concedido 148.200 € a entidades sin ánimo de lucro para programas de atención a la diversidad en el curso 2025-2026. Es una línea autonómica de educación inclusiva para entidades que conviene tener en cuenta para próximas convocatorias.\n\nMás información: https://web.larioja.org/bor-portada/boranuncio?n=42279118-3-HTML-579848-X\n\nUn saludo,"
+        "asunto":  "Atención a la diversidad La Rioja - 148.200 € para entidades",
+        "cuerpo":  "Buenos días familia 😊\n\nOs hago llegar información sobre las ayudas que ha concedido La Rioja: 148.200 € a entidades sin ánimo de lucro para programas de atención a la diversidad en el curso 2025-2026. Es una línea de educación inclusiva para entidades que conviene tener en cuenta para próximas convocatorias.\n\nMás información: https://web.larioja.org/bor-portada/boranuncio?n=42279118-3-HTML-579848-X\n\nSi tenéis dudas, por favor decídmelo y lo comentamos sin problema.\n\nMuchas gracias.\n\nUn saludo,"
     }
 ];
