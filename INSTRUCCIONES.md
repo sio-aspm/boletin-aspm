@@ -10,9 +10,11 @@
 ## 1. Descargar
 
 ```powershell
-cd C:\Users\Usuario\boletin-aspm
-powershell -ExecutionPolicy Bypass -File scripts\descargar.ps1 -Edicion $ED
+powershell -ExecutionPolicy Bypass -File C:\Users\Usuario\boletin-aspm\scripts\descargar.ps1 -Edicion $ED
 ```
+
+(Siempre así, en una sola línea, sin `cd` delante: es la forma que está autorizada para que la
+tarea corra sola sin pedir permiso.)
 
 Cubre automáticamente los días que falten desde la última edición (si el PC estuvo apagado).
 Si una fuente da error, no se detiene: queda anotado y sale en la web. Si **todas** fallan
@@ -67,7 +69,7 @@ saltos de línea, enlace incluido, sin datos de familias). Si falta, el script p
 ## 5. Publicar
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts\publicar.ps1 -Edicion $ED
+powershell -ExecutionPolicy Bypass -File C:\Users\Usuario\boletin-aspm\scripts\publicar.ps1 -Edicion $ED
 ```
 
 Genera la web (`docs\`), el archivo `C:\Users\Usuario\Downloads\SIO - IA\ASPM\boletines\$ED.md`
