@@ -66,13 +66,21 @@ Los `id` deben existir tal cual en el TSV.
 correo» en la web. Síguelo al pie de la letra de `estilo-correo.md` (texto plano, `\n` para
 saltos de línea, enlace incluido, sin datos de familias). Si falta, el script pone uno genérico.
 
+**Comunidad autónoma (opcional):** el botón de la copia local preselecciona en el CCO la comunidad
+del boletín (BOCM → Madrid, DOG → Galicia…); lo del BOE y las noticias sale como estatal (todas
+marcadas). Si algo del BOE o una noticia es solo de una comunidad, añade `"ccaa": "Galicia"` al
+elemento, con el nombre tal cual de esta lista: Andalucía, Aragón, Asturias, Canarias, Cantabria,
+Castilla-La Mancha, Castilla y León, Cataluña, Ceuta, Comunidad Valenciana, Extremadura, Galicia,
+Illes Balears, La Rioja, Madrid, Melilla, Murcia, Navarra, País Vasco.
+
 ## 5. Publicar
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File C:\Users\Usuario\boletin-aspm\scripts\publicar.ps1 -Edicion $ED
 ```
 
-Genera la web (`docs\`), el archivo `C:\Users\Usuario\Downloads\SIO - IA\ASPM\boletines\$ED.md`
+Genera la web (`docs\`), la copia local con destinatarios (`C:\Users\Usuario\boletin-aspm-privado\index.html`,
+fuera del repositorio; ver `scripts\destinatarios.ps1`), el archivo `C:\Users\Usuario\Downloads\SIO - IA\ASPM\boletines\$ED.md`
 y hace `git push`. Si el push falla (credenciales caducadas, sin red), el archivo local ya está
 generado: dilo en el resumen final.
 

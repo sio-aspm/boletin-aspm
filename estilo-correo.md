@@ -9,7 +9,12 @@
 
 ## A quién va
 
-Por defecto a **familias** (varias a la vez, que ella pone en CCO). Destinatario vacío: lo elige ella.
+Por defecto a **familias** (varias a la vez, en CCO). En la web pública el destinatario queda vacío.
+En la **copia local** (`C:\Users\Usuario\boletin-aspm-privado\index.html`, desde el 2026-10-26) el
+botón pregunta a qué comunidades se envía —marcada la del boletín, o todas si es estatal— y pone en
+CCO los correos de la BB.DD. de personas de esas comunidades: todas las personas con email de la
+hoja PERSONAS (menos BAJA y residentes fuera de España) y las de CONTACTOS SIO con provincia de
+España. Si son demasiadas para el enlace de Gmail, las copia al portapapeles para pegarlas en CCO.
 
 ## Forma
 

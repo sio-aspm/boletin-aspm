@@ -4,10 +4,13 @@
 param(
     [string]$Edicion = (Get-Date).ToString('yyyy-MM-dd'),
     [string]$CarpetaSIO = 'C:\Users\Usuario\Downloads\SIO - IA\ASPM\boletines',
+    # Copia del boletín con los correos de las familias en el botón de reenvío. Fuera del repositorio: nunca se publica.
+    [string]$CarpetaLocal = 'C:\Users\Usuario\boletin-aspm-privado',
     [switch]$SinPush
 )
 $ErrorActionPreference = 'Stop'
 $raiz = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'destinatarios.ps1')
 $utf8 = New-Object Text.UTF8Encoding $false
 function Leer-Json($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json }
 function Esc($s) { [Net.WebUtility]::HtmlEncode("$s") }
@@ -61,10 +64,13 @@ function Correo($c, $titular, $plazo, $url, [switch]$Tramite) {
 }
 # Al pulsar el botón, el saludo se adapta a la hora: «Buenos días» antes de las 14:00, «Buenas tardes» después.
 $scriptSaludo = '<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.reenviar");if(!a)return;var t=new Date().getHours()>=14,de=encodeURIComponent(t?"Buenos días":"Buenas tardes"),a2=encodeURIComponent(t?"Buenas tardes":"Buenos días");a.href=a.href.replace(de,a2);});</script>'
-function Boton($m) {
+# data-ccaa: comunidad a la que va dirigida (vacío = estatal). Solo la usa la copia local para preseleccionar el CCO.
+function Boton($m, $ccaa) {
     $u = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + [Uri]::EscapeDataString($m.asunto) + '&body=' + [Uri]::EscapeDataString(($m.cuerpo -replace "`r", ''))
-    "<a class=`"reenviar`" href=`"$(Esc $u)`" target=`"_blank`" rel=`"noopener`">✉ Reenviar por correo</a>"
+    "<a class=`"reenviar`" href=`"$(Esc $u)`" data-ccaa=`"$(Esc $ccaa)`" target=`"_blank`" rel=`"noopener`">✉ Reenviar por correo</a>"
 }
+# El campo opcional "ccaa" de la clasificación manda; si no, la del boletín (BOE y noticias: estatal).
+function CCAA-Item($c, $it) { if ($c.ccaa) { return "$($c.ccaa)" }; if ($it) { return (CCAA-De-Ambito $it.ambito) }; return '' }
 
 # ---------- HTML ----------
 function Tarjetas($lista, $clase) {
@@ -78,7 +84,7 @@ function Tarjetas($lista, $clase) {
         [void]$sb.Append("</div><h3>$(Esc $titular)</h3>")
         if ($c.por_que) { [void]$sb.Append("<p>$(Esc $c.por_que)</p>") }
         $m = Correo $c $titular $c.plazo $it.url -Tramite
-        [void]$sb.Append("<p class=`"orig`">$(Esc $it.departamento) · $(Esc $it.titulo)</p><p class=`"acciones`"><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a>$(Boton $m)</p></article>")
+        [void]$sb.Append("<p class=`"orig`">$(Esc $it.departamento) · $(Esc $it.titulo)</p><p class=`"acciones`"><a href=`"$(Esc $it.url)`" target=`"_blank`" rel=`"noopener`">Leer en la fuente oficial →</a>$(Boton $m (CCAA-Item $c $it))</p></article>")
     }
     return $sb.ToString()
 }
@@ -97,7 +103,7 @@ function Pagina($prefijo, $archivoHtml) {
     [void]$sb.Append("<h2>Noticias del sector <span class=`"n`">$($noticias.Count)</span></h2>")
     if ($noticias.Count -eq 0) { [void]$sb.Append('<p class="vacio">Sin noticias destacables hoy.</p>') }
     foreach ($n in $noticias) {
-        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(Esc $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(Esc $n.titulo)</strong></a><div class=`"src`">$(Esc $n.fuente)$(if ($n.fecha) { ' · ' + (Esc $n.fecha) })</div><div>$(Esc $n.resumen)</div><p class=`"acciones`">$(Boton (Correo $n $n.titulo '' $n.url))</p></div>")
+        [void]$sb.Append("<div class=`"noticia`"><a href=`"$(Esc $n.url)`" target=`"_blank`" rel=`"noopener`"><strong>$(Esc $n.titulo)</strong></a><div class=`"src`">$(Esc $n.fuente)$(if ($n.fecha) { ' · ' + (Esc $n.fecha) })</div><div>$(Esc $n.resumen)</div><p class=`"acciones`">$(Boton (Correo $n $n.titulo '' $n.url) (CCAA-Item $n $null))</p></div>")
     }
     [void]$sb.Append("<h2>3. Descartado <span class=`"n`">$($descartados.Count)</span></h2><p class=`"orig`">Una línea por disposición, para comprobar que no se ha colado nada relevante.</p>")
     foreach ($g in ($descartados | Group-Object boletin | Sort-Object { if ($_.Name -eq 'BOE') { '0' } else { $_.Name } })) {
@@ -189,6 +195,98 @@ $li = @"
 $arch = "<!doctype html><html lang=`"es`"><head><meta charset=`"utf-8`"><meta name=`"viewport`" content=`"width=device-width,initial-scale=1`"><title>Boletín ASPM · Histórico</title><link rel=`"preconnect`" href=`"https://fonts.googleapis.com`"><link rel=`"preconnect`" href=`"https://fonts.gstatic.com`" crossorigin><link rel=`"stylesheet`" href=`"https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap`"><link rel=`"stylesheet`" href=`"estilo.css`"></head><body><div class=`"wrap`"><header class=`"top`"><a href=`"https://22q13.org.es/`" target=`"_blank`" rel=`"noopener`"><img class=`"logo`" src=`"logo-aspm.png`" alt=`"Asociación Síndrome Phelan-McDermid`" width=`"200`" height=`"58`"></a><div class=`"kicker`">Boletín ASPM</div><h1>Histórico</h1><div class=`"meta`"><a href=`"index.html`">← Última edición</a></div></header>$li</div>$scriptSaludo</body></html>"
 [IO.File]::WriteAllText((Join-Path $docs 'archivo.html'), $arch, $utf8)
 if (-not (Test-Path (Join-Path $docs '.nojekyll'))) { [IO.File]::WriteAllText((Join-Path $docs '.nojekyll'), '', $utf8) }
+
+# ---------- Copia local con destinatarios (CCO por comunidad autónoma) ----------
+# Misma edición, pero el botón «Reenviar por correo» pregunta a qué CC.AA. se envía y pone en CCO
+# los correos de la BB.DD. de personas (ver destinatarios.ps1). Solo existe en este PC.
+# Si falla (Excel no encontrado…), la web pública se publica igual.
+$scriptEnvio = @'
+<style>
+.aviso-local{background:#fff4e5;border:1px solid #f0b46a;border-radius:8px;padding:10px 14px;margin:0 0 18px;font-size:14px}
+dialog.envio{max-width:560px;width:calc(100% - 32px);border:0;border-radius:12px;padding:20px 22px;box-shadow:0 10px 40px rgba(0,0,0,.25);font-family:inherit}
+dialog.envio::backdrop{background:rgba(0,0,0,.35)}
+dialog.envio h3{margin:0 0 6px}
+dialog.envio .ccaa{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px 12px;margin:12px 0}
+dialog.envio label{font-size:14px;cursor:pointer}
+dialog.envio label span{color:#888}
+dialog.envio .total{font-weight:600}
+dialog.envio .botones{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+dialog.envio button{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
+dialog.envio button.ok{background:#2e7d32;border-color:#2e7d32;color:#fff}
+dialog.envio button:disabled{opacity:.5;cursor:default}
+</style>
+<script>
+(function () {
+  var D = window.DESTINATARIOS || {}, nombres = Object.keys(D), LIMITE = 7500, actual = null;
+  var dlg = document.createElement('dialog'); dlg.className = 'envio'; document.body.appendChild(dlg);
+  function marcadas() { return [].slice.call(dlg.querySelectorAll('.ccaa input:checked')).map(function (i) { return i.value; }); }
+  function correos() {
+    var vistos = {}, out = [];
+    marcadas().forEach(function (n) { (D[n] || []).forEach(function (e) { if (!vistos[e]) { vistos[e] = 1; out.push(e); } }); });
+    return out;
+  }
+  function contar() {
+    var n = correos().length, t = dlg.querySelector('.total');
+    t.textContent = n + (n === 1 ? ' destinatario' : ' destinatarios') + ' en copia oculta (CCO)' + (n > 490 ? ' · Gmail admite unos 500 por correo: divide el envío en dos.' : '');
+    dlg.querySelector('[data-ok]').disabled = n === 0;
+  }
+  function abrir(det) {
+    var h = '<h3>¿A qué comunidades lo envío?</h3><p class="orig">' + (det
+      ? 'Corresponde a <strong>' + det + '</strong>. ¿Quieres enviarlo también a alguna comunidad más?'
+      : 'Es de ámbito estatal: están todas marcadas. Desmarca las que no quieras.') + '</p><div class="ccaa">';
+    nombres.forEach(function (n) {
+      var on = det ? n === det : true;
+      h += '<label><input type="checkbox" value="' + n + '"' + (on ? ' checked' : '') + '> ' + n + ' <span>(' + D[n].length + ')</span></label>';
+    });
+    h += '</div><p class="orig"><a href="#" data-todas>Marcar todas</a> · <a href="#" data-ninguna>Ninguna</a></p><p class="total"></p>' +
+      '<div class="botones"><button type="button" data-cancel>Cancelar</button><button type="button" class="ok" data-ok>Abrir borrador en Gmail</button></div>';
+    dlg.innerHTML = h; contar(); dlg.showModal();
+  }
+  function copiar(texto) {
+    var t = document.createElement('textarea'); t.value = texto; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(t);
+  }
+  function enviar() {
+    var p = new URL(actual.href).searchParams, lista = correos();
+    var base = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent(p.get('su') || '') + '&body=' + encodeURIComponent(p.get('body') || '');
+    var url = base + '&bcc=' + encodeURIComponent(lista.join(','));
+    if (url.length > LIMITE) {
+      copiar(lista.join(', '));
+      alert('Son muchas direcciones para meterlas en el enlace de Gmail.\n\nLas he copiado: en el borrador, pulsa «CCO» y pega (Ctrl+V).');
+      url = base;
+    }
+    dlg.close(); window.open(url, '_blank', 'noopener');
+  }
+  dlg.addEventListener('change', contar);
+  dlg.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.hasAttribute('data-cancel')) dlg.close();
+    else if (t.hasAttribute('data-ok')) enviar();
+    else if (t.hasAttribute('data-todas') || t.hasAttribute('data-ninguna')) {
+      e.preventDefault(); var v = t.hasAttribute('data-todas');
+      [].forEach.call(dlg.querySelectorAll('.ccaa input'), function (i) { i.checked = v; }); contar();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.reenviar'); if (!a) return;
+    e.preventDefault(); actual = a; abrir(a.getAttribute('data-ccaa') || '');
+  });
+})();
+</script>
+'@
+try {
+    $dest = Get-Destinatarios
+    foreach ($a in $dest.avisos) { Write-Warning $a }
+    $web = 'https://sio-aspm.github.io/boletin-aspm/'
+    $local = (Pagina $web "${web}archivo.html")
+    $aviso = '<div class="aviso-local"><strong>Copia local con los correos de las familias.</strong> Solo existe en este ordenador: no la compartas ni la subas. «Reenviar por correo» pone las direcciones en copia oculta según la comunidad autónoma.</div>'
+    $local = $local.Replace('</header>', "</header>$aviso")
+    $local = $local.Replace('</body>', "<script>window.DESTINATARIOS = $(ConvertTo-Json -InputObject $dest.ccaa -Depth 3 -Compress);</script>$scriptEnvio</body>")
+    New-Item -ItemType Directory -Force $CarpetaLocal | Out-Null
+    [IO.File]::WriteAllText((Join-Path $CarpetaLocal 'index.html'), $local, $utf8)
+} catch {
+    Write-Warning "No se pudo generar la copia local con destinatarios: $($_.Exception.Message)"
+}
 
 # ---------- Markdown para la carpeta SIO ----------
 function Limpio($s) { ("$s" -replace '\r?\n', ' ').Trim() }
